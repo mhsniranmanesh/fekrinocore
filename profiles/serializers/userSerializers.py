@@ -14,26 +14,10 @@ class UserEmailActivationSerializer(serializers.ModelSerializer):
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(max_length=50, required=True, validators=[NameValidator()])
     phone_number = serializers.CharField(max_length=30, required=True, validators=[PhoneNumberValidator()])
-    password = serializers.CharField(min_length=8, max_length=128, required=True)
-
     class Meta:
         model = User
-        fields = ('username', 'password', 'email', 'first_name', 'last_name', 'phone_number', 'is_freelancer')
-
-    def create(self, validated_data):
-        user = User.objects.create(
-           username=validated_data['username'],
-           name=validated_data['name'],
-           phone_number=validated_data['phone_number'],
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        token = default_token_generator.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.uuid))
-        user.send_sms(uid, token)
-        return user
+        fields = ('name', 'phone_number')
 
 
 class UserGetPublicInfosSerializer(serializers.ModelSerializer):
@@ -59,6 +43,4 @@ class UserGetInitialInfosSerializer(serializers.ModelSerializer):
 class UserUpdateInfosSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('title', 'bio', 'job', 'degree', 'university', 'profile_picture')
-
-
+        fields = ('bio', 'job', 'university')

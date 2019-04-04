@@ -31,12 +31,17 @@ KAVENEGAR_API_KEY = '5335696668626E75784D59365838474868543137754D31684B566179644
 # Application definition
 
 INSTALLED_APPS = [
+    'profiles',
+    'authentication',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'polymorphic',
+    'rest_framework',
+    'imagekit',
 ]
 
 MIDDLEWARE = [

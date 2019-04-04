@@ -1,25 +1,16 @@
 import os
 from django.db import models
 import uuid as uuid_lib
-
 from django.dispatch import receiver
 from django.utils import timezone
-
 from profiles.models.user import User
-from profiles.utils.profilePictureUtils import random_string_generator
 
 
 def profile_picture_attachment_path(instance):
     return 'profile_pictures/{0}/{1}.jpeg'.format(instance.user.uuid, instance.uuid)
 
-def profile_picture_avatar_attachment_path(instance):
+def profile_picture_thumbnail_attachment_path(instance):
     return 'profile_pictures/{0}/{1}-avatar.jpeg'.format(instance.user.uuid, instance.uuid)
-
-
-def user_profile_picture_path(self):
-    random_string = random_string_generator(size=5)
-    final_file_name = ''.join([self.username, random_string])
-    return 'profile_pictures/{0}.jpeg'.format(final_file_name)
 
 
 class ProfilePicture(models.Model):
@@ -28,7 +19,8 @@ class ProfilePicture(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_profile_picture',
                                 blank=True, null=True)
     profile_picture = models.ImageField(upload_to=profile_picture_attachment_path, blank=False)
-    avatar = models.ImageField(upload_to=profile_picture_avatar_attachment_path, blank=False)
+    thumbnail = models.ImageField(upload_to=profile_picture_thumbnail_attachment_path, blank=False)
+    priority = models.IntegerField(blank=False)
 
 
 @receiver(models.signals.post_delete, sender=ProfilePicture)
