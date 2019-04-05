@@ -1,4 +1,6 @@
+from django.contrib.auth.base_user import BaseUserManager
 from django.db import IntegrityError
+from django.utils.crypto import get_random_string
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -7,6 +9,7 @@ from rest_framework.views import APIView
 
 from profiles.models.user import User
 from profiles.serializers.userSerializers import CreateUserSerializer, UserUpdateInfosSerializer
+from profiles.utils.userUtils import create_user_random_password
 
 
 class UserCreateView(CreateAPIView):
@@ -18,15 +21,26 @@ class UserCreateView(CreateAPIView):
         serializer = CreateUserSerializer(data=request.data)
         if serializer.is_valid():
             try:
-                user = User.objects.create(
+                user = User(
                     username=serializer.validated_data['phone_number'],
                     name = serializer.validated_data['name'],
-                    phone_number = serializer.validated_data['phone_number']
+                    phone_number = serializer.validated_data['phone_number'],
                 )
-                return Response(data={'phone_number': user.phone_number, 'name': user.name}, status=status.HTTP_200_OK)
+                password = create_user_random_password()
+                user.set_password(password)
+                user.save()
+                return Response(
+                    data={'phone_number': user.phone_number,
+                          'name': user.name,
+                          'username': user.username,
+                          'password': user.password
+                          },
+                    status=status.HTTP_200_OK
+                )
             except IntegrityError:
                 return Response(data={'phone_number': ['User with this phone number already exists']}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
+                print(e)
                 return Response(data={'message': 'something went wrong'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
