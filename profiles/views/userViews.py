@@ -55,12 +55,14 @@ class UserUpdateInfosView(UpdateAPIView):
         if serializer.is_valid():
             try:
                 user = request.user
+                if 'name' in serializer.validated_data.keys():
+                    user.name = serializer.validated_data.get('name')
                 if 'bio' in serializer.validated_data.keys():
-                    user.bio = serializer.validated_data['bio']
+                    user.bio = serializer.validated_data.get('bio')
                 if 'job' in serializer.validated_data.keys():
-                    user.job = serializer.validated_data['job']
+                    user.job = serializer.validated_data.get('job')
                 if 'university' in serializer.validated_data.keys():
-                    user.university = serializer.validated_data['university']
+                    user.university = serializer.validated_data.get('university')
                 user.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
 

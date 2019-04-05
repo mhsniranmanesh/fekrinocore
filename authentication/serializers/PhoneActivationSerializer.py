@@ -1,12 +1,21 @@
 from rest_framework import serializers
+
+from authentication.models.phoneActivation import PhoneActivationToken
 from profiles.models.user import User
 from profiles.validators.userValidators import PhoneNumberValidator
 
 
 class GetPhoneTokenSerializer(serializers.ModelSerializer):
-    phone_number = serializers.CharField(
-        validators=[PhoneNumberValidator()])
+    phone_number = serializers.CharField(validators=[PhoneNumberValidator()])
 
     class Meta:
-        model = User
+        model = PhoneActivationToken
         fields = ['phone_number']
+
+
+class VerifyPhoneTokenSerializer(serializers.ModelSerializer):
+    phone_number = serializers.CharField(validators=[PhoneNumberValidator()])
+
+    class Meta:
+        model = PhoneActivationToken
+        fields = ['phone_number', 'token']
