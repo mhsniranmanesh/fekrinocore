@@ -18,9 +18,9 @@ class ProfilePicture(models.Model):
     date_created = models.DateTimeField(default=timezone.now, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_profile_picture',
                                 blank=True, null=True)
-    profile_picture = models.ImageField(upload_to=profile_picture_attachment_path, blank=False)
+    image = models.ImageField(upload_to=profile_picture_attachment_path, blank=False)
     thumbnail = models.ImageField(upload_to=profile_picture_thumbnail_attachment_path, blank=False)
-    priority = models.IntegerField(blank=False)
+    priority = models.IntegerField(blank=False, default=1)
 
 
 @receiver(models.signals.post_delete, sender=ProfilePicture)

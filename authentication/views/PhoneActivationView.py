@@ -91,10 +91,13 @@ class VerifyPhoneTokenView(APIView):
                                 'password': user.password
                             }
                             return Response(data=user_data, status=status.HTTP_201_CREATED)
+                        except Exception as e:
+                            return Response(data={'message': 'something went wrong'},
+                                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                     else:
                         return Response(data={'message': 'token is not correct'}, status=status.HTTP_400_BAD_REQUEST)
             except PhoneActivationToken.DoesNotExist:
                 return Response(data={'message': 'no token obtained for this number'}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
-                return Response(data={'message': 'something went wrong'}, status=status.HTTP_201_CREATED)
+                return Response(data={'message': 'something went wrong'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
