@@ -34,9 +34,13 @@ def auto_delete_image_and_thumbnail_on_delete(sender, instance, **kwargs):
     Deletes file from filesystem
     when corresponding `MediaFile` object is deleted.
     """
-    if instance.profile_picture:
-        if os.path.isfile(instance.profile_picture.path):
-            os.remove(instance.profile_picture.path)
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
+
+    if instance.thumbnail:
+        if os.path.isfile(instance.thumbnail.path):
+            os.remove(instance.thumbnail.path)
 
     return False
 

@@ -24,14 +24,12 @@ def generate_resized_picture(picture, mode):
         elif mode == 'thumbnail':
             image_generator = ProfilePictureThumbnail(source=picture)
         result = image_generator.generate()
-        print(result)
         dest = open(picture.path, mode='bw')
         dest.write(result.read())
         dest.close()
         return True
     except Exception as e:
         #Handle Exception
-        print(e)
         return False
 
 
