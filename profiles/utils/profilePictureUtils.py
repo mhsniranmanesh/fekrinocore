@@ -1,43 +1,37 @@
 import random
 import string
 
-from imagekit import ImageSpec
 from imagekit.processors import ResizeToFill
+from imagekit.specs import ImageSpec
 
 
-class ProfilePictureThumbnail(ImageSpec):
-    processors = [ResizeToFill(300, 300)]
+class ProfilePictureImage(ImageSpec):
+    processors = [ResizeToFill(900, 900)]
     format = 'JPEG'
     options = {'quality': 100}
 
 
-class AvatarThumbnail(ImageSpec):
+class ProfilePictureThumbnail(ImageSpec):
     processors = [ResizeToFill(100, 100)]
     format = 'JPEG'
     options = {'quality': 80}
 
 
-def generate_resized_profile_picture(picture):
+def generate_resized_picture(picture, mode):
     try:
-        image_generator = ProfilePictureThumbnail(source=picture)
+        if mode == 'image':
+            image_generator = ProfilePictureImage(source=picture)
+        elif mode == 'thumbnail':
+            image_generator = ProfilePictureThumbnail(source=picture)
         result = image_generator.generate()
+        print(result)
         dest = open(picture.path, mode='bw')
         dest.write(result.read())
         dest.close()
-
-    except:
-        return False
-
-
-def generate_avatar(picture):
-    try:
-        image_generator = AvatarThumbnail(source=picture)
-        result = image_generator.generate()
-        dest = open(picture.path, mode='bw')
-        dest.write(result.read())
-        dest.close()
-
-    except:
+        return True
+    except Exception as e:
+        #Handle Exception
+        print(e)
         return False
 
 

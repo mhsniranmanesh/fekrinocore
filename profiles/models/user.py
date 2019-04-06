@@ -21,7 +21,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             'unique': _("A user with that username already exists."),
         },
     )
-    name = models.CharField(_('name'), max_length=50, blank=False)
+    name = models.CharField(_('name'), max_length=50, blank=True)
     first_name = models.CharField(_('first name'), max_length=50, blank=True)
     last_name = models.CharField(_('last name'), max_length=50, blank=True)
     email = models.EmailField(_('email address'), max_length=50, unique=True)

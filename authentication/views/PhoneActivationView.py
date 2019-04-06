@@ -67,11 +67,14 @@ class VerifyPhoneTokenView(APIView):
                     if otp.token == token:
                         try:
                             user = User.objects.get(username=phone_number)
+                            password = create_user_random_password()
+                            user.set_password(password)
+                            user.save()
                             user_data = {
                                             'phone_number': user.phone_number,
                                             'name': user.name,
                                             'username': user.username,
-                                            'password': user.password
+                                            'password': password
                                         }
                             return Response(data=user_data, status=status.HTTP_200_OK)
 
@@ -80,6 +83,7 @@ class VerifyPhoneTokenView(APIView):
                                 username=phone_number,
                                 name='No name',
                                 phone_number=phone_number,
+                                is_active=True
                             )
                             password = create_user_random_password()
                             user.set_password(password)
@@ -88,7 +92,7 @@ class VerifyPhoneTokenView(APIView):
                                 'phone_number': user.phone_number,
                                 'name': user.name,
                                 'username': user.username,
-                                'password': user.password
+                                'password': password
                             }
                             return Response(data=user_data, status=status.HTTP_201_CREATED)
                         except Exception as e:

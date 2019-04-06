@@ -43,4 +43,4 @@ class UserGetInitialInfosSerializer(serializers.ModelSerializer):
 class UserUpdateInfosSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('bio', 'job', 'university')
+        fields = ('name', 'bio', 'work', 'university')
