@@ -27,7 +27,7 @@ SECRET_KEY = '((8&#%*_i+px5h18@4!wy&gdc3kcxjb9k9wgddl_nimaol@!#d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['157.230.113.65', 'localhost', '127.0.0.1']
 
 KAVENEGAR_API_KEY = '5335696668626E75784D59365838474868543137754D31684B56617964467A67'
 # Application definition
