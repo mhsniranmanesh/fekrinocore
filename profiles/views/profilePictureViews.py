@@ -46,7 +46,6 @@ class ProfilePictureView(APIView):
                 return Response(data={'message': 'image does not exist'}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
                 # Handle Exception
-                print(e)
                 return Response(data={'message': 'something went wrong'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
