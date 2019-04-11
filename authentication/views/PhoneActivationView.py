@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from authentication.models.phoneActivation import PhoneActivationToken
 from authentication.serializers.PhoneActivationSerializer import GetPhoneTokenSerializer, VerifyPhoneTokenSerializer
 from authentication.utils.PhoneActivationUtils import create_otp_token
+from fekrino.utils.smsUtils import send_sms
 from profiles.models.user import User
 from profiles.utils.userUtils import create_user_random_password
 
@@ -27,7 +28,7 @@ class GetPhoneTokenView(APIView):
                     new_otp = PhoneActivationToken.objects.create(phone_number=phone_number, is_last=True, token=token)
                     old_otp.is_last = False
                     old_otp.save()
-                    # send_sms(phone_number, new_otp.token)
+                    send_sms(phone_number, new_otp.token)
                     return Response(data={'message': 'new token successfully sent'}, status=status.HTTP_201_CREATED)
                 elif old_otp.is_again:
                     return Response(data={'message': 'token sent two times, try again after 2 minutes'},
@@ -35,12 +36,12 @@ class GetPhoneTokenView(APIView):
                 else:
                     old_otp.is_again = True
                     old_otp.save()
-                    #send_sms(phone_number, old_otp.token)
+                    send_sms(phone_number, old_otp.token)
                     return Response(data={'message': 'token sent again'}, status=status.HTTP_201_CREATED)
             except PhoneActivationToken.DoesNotExist:
                 token = create_otp_token()
                 otp = PhoneActivationToken.objects.create(phone_number=phone_number, is_last=True, token=token)
-                # send_sms(phone_number, otp.token)
+                send_sms(phone_number, otp.token)
                 return Response(data={'message': 'token successfully sent'}, status=status.HTTP_201_CREATED)
             except Exception as e:
                 print(e)
@@ -58,8 +59,8 @@ class VerifyPhoneTokenView(APIView):
                 phone_number = serializer.validated_data.get('phone_number')
                 token = serializer.validated_data.get('token')
                 otp = PhoneActivationToken.objects.get(phone_number=phone_number, is_last=True)
-                print(otp.token)
-                print(token)
+                # print(otp.token)
+                # print(token)
 
                 if timezone.now() - otp.date_created > timedelta(minutes=2):
                     return Response(data={'message': 'token expired, get another'}, status=status.HTTP_400_BAD_REQUEST)
