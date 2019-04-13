@@ -1,4 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.gis.geos import Point
 from django.db import IntegrityError
 from django.utils.crypto import get_random_string
 from rest_framework import status
@@ -8,7 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from profiles.models.user import User
-from profiles.serializers.userSerializers import CreateUserSerializer, UserUpdateInfosSerializer
+from profiles.serializers.userSerializers import CreateUserSerializer, UserUpdateInfosSerializer, \
+    UserUpdateLocationSerializer
 from profiles.utils.userUtils import create_user_random_password
 
 
@@ -63,9 +65,43 @@ class UserUpdateInfosView(UpdateAPIView):
                     user.work = serializer.validated_data.get('work')
                 if 'university' in serializer.validated_data.keys():
                     user.university = serializer.validated_data.get('university')
+                if 'latitude' in serializer.validated_data.keys() and 'longitude' in serializer.validated_data.keys():
+                    longitude = serializer.validated_data.get('longitude')
+                    latitude = serializer.validated_data.get('latitude')
+                    location = Point(longitude, latitude)
+                    print(location)
+                    user.location = location
                 user.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
             except Exception as e:
                 return Response(data={'message': 'something went wrong'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserUpdateLocationView(UpdateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated, )
+
+
+    def put(self, request):
+        serializer = UserUpdateLocationSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                user = request.user
+                longitude = serializer.validated_data.get('longitude')
+                latitude = serializer.validated_data.get('latitude')
+                location = Point(longitude, latitude)
+                user.location = location
+                user.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+            except Exception as e:
+                print(e)
+                return Response(data={'message': 'something went wrong'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+

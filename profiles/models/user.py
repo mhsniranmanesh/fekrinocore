@@ -10,6 +10,10 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    GENDER_CHOICES = (
+        ('M', 'Man'),
+        ('W', 'Woman'),
+    )
     username_validator = UnicodeUsernameValidator()
     username = models.CharField(
         _('username'),
@@ -54,6 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     balance = models.IntegerField(default=Constants.USER_INITIAL_BALANCE)
     rate = models.IntegerField(default=0)
     location = models.PointField(null=True)
+    gender = models.CharField(blank=True, choices=GENDER_CHOICES, max_length=10)
 
     objects = UserManager()
 

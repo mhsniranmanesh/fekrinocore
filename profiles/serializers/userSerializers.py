@@ -44,3 +44,11 @@ class UserUpdateInfosSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('name', 'bio', 'work', 'university')
+
+
+class UserUpdateLocationSerializer(serializers.ModelSerializer):
+    latitude = serializers.FloatField()
+    longitude = serializers.FloatField()
+    class Meta:
+        model = User
+        fields = ('name', 'latitude', 'longitude')
