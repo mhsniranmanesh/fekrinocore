@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'imagekit',
     'profiles',
     'authentication',
-    # 'match',
+    'match',
     'discover',
 ]
 
