@@ -1,8 +1,8 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.db import models
 import uuid as uuid_lib
+from django.contrib.gis.db import models
 from django.utils import timezone
 from fekrino.utils.smsUtils import send_sms
 from profiles.constants.userConstants import Constants
@@ -42,7 +42,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone_number = models.CharField(
         _('phone number'),
         max_length=16,
-        unique=True,
         db_index=True,
         blank=False
     )
@@ -54,6 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     university = models.CharField(_('university'), max_length=150, blank=True)
     balance = models.IntegerField(default=Constants.USER_INITIAL_BALANCE)
     rate = models.IntegerField(default=0)
+    location = models.PointField(null=True)
 
     objects = UserManager()
 

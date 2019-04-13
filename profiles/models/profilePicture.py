@@ -1,6 +1,7 @@
 import os
-from django.db import models
 import uuid as uuid_lib
+
+from django.contrib.gis.db import models
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.crypto import get_random_string
