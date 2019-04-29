@@ -1,6 +1,5 @@
 from django.contrib.gis.db import models
 from django.utils import timezone
-from profiles.models.user import User
 import uuid as uuid_lib
 
 

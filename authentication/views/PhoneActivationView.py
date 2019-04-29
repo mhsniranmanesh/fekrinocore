@@ -97,6 +97,7 @@ class VerifyPhoneTokenView(APIView):
                             }
                             return Response(data=user_data, status=status.HTTP_201_CREATED)
                         except Exception as e:
+                            #Handle Exception
                             return Response(data={'message': 'something went wrong'},
                                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                     else:

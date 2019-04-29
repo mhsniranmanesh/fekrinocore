@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['157.230.113.65', 'localhost', '127.0.0.1']
 
 KAVENEGAR_API_KEY = '316249736A4D662B556D58676250314B497146656F413D3D'
 # Application definition
+SEND_SMS = False
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -43,10 +44,12 @@ INSTALLED_APPS = [
     'polymorphic',
     'rest_framework',
     'imagekit',
+    'channels',
     'profiles',
     'authentication',
     'match',
     'discover',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -79,6 +82,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fekrino.wsgi.application'
 
+ASGI_APPLICATION = "fekrino.routing.application"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -97,7 +110,7 @@ DATABASES = {
         'USER': 'mohsen',
         'PASSWORD': 'pdnejoh',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '25432',
     }
 }
 
