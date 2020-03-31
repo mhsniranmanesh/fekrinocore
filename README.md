@@ -1,5 +1,5 @@
 # fekrinocore
-Initialize server :
+**Initialize server**
 ~~~~
 ssh root@ip_adsress
 adduser ubuntu
