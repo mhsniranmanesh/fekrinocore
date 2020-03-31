@@ -25,13 +25,44 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '((8&#%*_i+px5h18@4!wy&gdc3kcxjb9k9wgddl_nimaol@!#d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['157.230.113.65', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 KAVENEGAR_API_KEY = '316249736A4D662B556D58676250314B497146656F413D3D'
+GHASEDAK_API_KEY = '6c7c464cebd2eaa94dd6723e8a5846cd8741f48518b8f43d53fbab5105d6a1e0'
 # Application definition
-SEND_SMS = False
+
+
+IS_IN_PRODUCTION = False
+
+
+if IS_IN_PRODUCTION is True:
+    DEBUG = False
+    SEND_SMS = True
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': '',
+            'USER': '',
+            'PASSWORD': '',
+            'HOST': 'localhost',
+            'PORT': '25432'
+        }
+    }
+else:
+    DEBUG = True
+    SEND_SMS = True
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': 'fekrino-db',
+            'USER': 'mohsen',
+            'PASSWORD': '123456789',
+            'HOST': 'localhost',
+            'PORT': '25432'
+        }
+    }
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -41,10 +72,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'polymorphic',
     'rest_framework',
     'imagekit',
-    'channels',
     'profiles',
     'authentication',
     'match',
@@ -93,27 +122,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'fekrino',
-        'USER': 'mohsen',
-        'PASSWORD': 'pdnejoh',
-        'HOST': 'localhost',
-        'PORT': '25432',
-    }
-}
-
 AUTH_USER_MODEL = 'profiles.User'
 
 # Password validation
@@ -139,7 +147,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_THROTTLE_CLASSES': (
         'rest_framework.throttling.AnonRateThrottle',
@@ -151,10 +159,32 @@ REST_FRAMEWORK = {
     },
 }
 
-JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
-    'JWT_ALLOW_REFRESH': True,
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=30),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': datetime.timedelta(days=30),
 }
+
 
 
 # Internationalization
@@ -175,7 +205,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+CELERY_BROKER_URL = 'amqp://localhost'
