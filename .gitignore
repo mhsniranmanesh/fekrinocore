@@ -13,14 +13,15 @@ node_modules
 *.pot
 *.pyc
 *.sock
-local_settings.py
-media
-static/*
+**/local_settings.py
+**/media
+**/static
+**/logs
 *.bak
-
+**/dbdata
 # Celery
-celerybeat-schedule.db
-celerybeat-schedule
+**/celerybeat-schedule.db
+**/celerybeat-schedule
 *.celerybeat-schedule
 
 # Celerybeat
