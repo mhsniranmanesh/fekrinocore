@@ -14,11 +14,11 @@ node_modules
 *.pyc
 *.sock
 **/local_settings.py
-**/media
-**/static
-**/logs
+**/media/*
+**/static/*
+**/logs/*
 *.bak
-**/dbdata
+**/dbdata/*
 # Celery
 **/celerybeat-schedule.db
 **/celerybeat-schedule
