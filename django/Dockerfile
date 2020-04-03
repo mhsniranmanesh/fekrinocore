@@ -43,10 +43,10 @@ COPY . /code/
 EXPOSE 8000
 
 # Add any static environment variables needed by Django or your settings file here:
-ENV DJANGO_SETTINGS_MODULE=my_project.settings.deploy
+ENV DJANGO_SETTINGS_MODULE=fekrino.settings
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
-RUN python manage.py collectstatic --noinput
+#RUN python manage.py collectstatic --noinput
 
 # Tell uWSGI where to find your wsgi file (change this):
 ENV UWSGI_WSGI_FILE=fekrino/wsgi.py
