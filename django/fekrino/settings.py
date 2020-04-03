@@ -13,7 +13,6 @@ import datetime
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import profiles
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -33,7 +32,7 @@ GHASEDAK_API_KEY = '6c7c464cebd2eaa94dd6723e8a5846cd8741f48518b8f43d53fbab5105d6
 # Application definition
 
 
-IS_IN_PRODUCTION = False
+IS_IN_PRODUCTION = True
 
 
 if IS_IN_PRODUCTION is True:
@@ -42,9 +41,9 @@ if IS_IN_PRODUCTION is True:
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
-            'NAME': '',
-            'USER': '',
-            'PASSWORD': '',
+            'NAME': 'fekrino-db',
+            'USER': 'mohsen',
+            'PASSWORD': 'pdnejoh',
             'HOST': 'localhost',
             'PORT': '25432'
         }
@@ -91,6 +90,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CSRF_COOKIE_SECURE = True
 
 ROOT_URLCONF = 'fekrino.urls'
 
