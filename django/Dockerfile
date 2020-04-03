@@ -77,5 +77,3 @@ CMD ["python3.8", "manage.py", "migrate"]
 ## Start uWSGI
 CMD ["uwsgi", "--show-config"]
 
-
-# CMD [ "./run.sh"]
