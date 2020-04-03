@@ -35,8 +35,8 @@ services:
 #      - backend
     restart: on-failure
 
-volumes:
-  postgres:
+#volumes:
+#  postgres:
 
 #networks:
 #  backend:
