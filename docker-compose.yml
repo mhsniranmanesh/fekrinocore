@@ -7,8 +7,8 @@ services:
       - POSTGRES_USER=mohsen
       - POSTGRES_PASS=pdnejoh
       - POSTGRES_DBNAME=fekrino-db
-#    volumes:
-#      - postgres:/var/lib/postgresql
+    volumes:
+      - postgres:/var/lib/postgresql
 #    networks:
 #      - backend
     expose:
@@ -21,10 +21,10 @@ services:
       - POSTGRES_USER=mohsen
       - POSTGRES_PASS=pdnejoh
       - POSTGRES_DBNAME=fekrino-db
-#    volumes:
-#      - ./django:/code
-#      - static:/static
-#      - media:/media
+    volumes:
+      - ./django:/code
+      - static:/static
+      - media:/media
     ports:
       - "8000:8000"
     links:
@@ -35,8 +35,11 @@ services:
 #      - backend
     restart: on-failure
 
-#volumes:
-#  postgres:
+volumes:
+  postgres:
+  static:
+  media:
+
 
 #networks:
 #  backend:
