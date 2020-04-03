@@ -67,10 +67,10 @@ ENV UWSGI_WORKERS=2 UWSGI_THREADS=4
 USER ${APP_USER}:${APP_USER}
 
 # Uncomment after creating your docker-entrypoint.sh
-ENTRYPOINT ["/code/docker-entrypoint.sh"]
-
-# Start uWSGI
-CMD ["uwsgi", "--show-config"]
+#ENTRYPOINT ["/code/docker-entrypoint.sh"]
+#
+## Start uWSGI
+#CMD ["uwsgi", "--show-config"]
 
 
 # CMD [ "./run.sh"]
