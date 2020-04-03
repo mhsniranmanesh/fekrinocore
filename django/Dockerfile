@@ -31,8 +31,8 @@ ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /code
 WORKDIR /code
-COPY ./piprequirments.txt /code/
-RUN pip install -r piprequirments.txt
+COPY ./requirments.txt /code/
+RUN pip install -r requirments.txt
 
 COPY . /code/
 # CMD [ "./run.sh"]
