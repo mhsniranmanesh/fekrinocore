@@ -45,7 +45,7 @@ if IS_IN_PRODUCTION is True:
             'USER': 'mohsen',
             'PASSWORD': 'pdnejoh',
             'HOST': 'localhost',
-            'PORT': '25432'
+            'PORT': '5432'
         }
     }
 else:
