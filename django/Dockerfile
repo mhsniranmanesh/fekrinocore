@@ -19,8 +19,8 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
 
 # update pip
-RUN python3.8 -m pip install pip --upgrade
-RUN python3.8 -m pip install wheel
+RUN python3 -m pip install pip --upgrade
+RUN python3 -m pip install wheel
 
 RUN apt-get install -y gdal-bin \
     libgdal-dev \
@@ -47,7 +47,6 @@ ENV DJANGO_SETTINGS_MODULE=fekrino.settings
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
 #RUN python manage.py collectstatic --noinput
-RUN python3.8 manage.py collectstatic --noinput
 
 # Tell uWSGI where to find your wsgi file (change this):
 ENV UWSGI_WSGI_FILE=fekrino/wsgi.py
@@ -70,9 +69,9 @@ USER ${APP_USER}:${APP_USER}
 # Uncomment after creating your docker-entrypoint.sh
 #ENTRYPOINT ["/code/docker-entrypoint.sh"]
 
-CMD ["python3.8", "manage.py", "collectstatic"]
-CMD ["python3.8", "manage.py", "makemigrations"]
-CMD ["python3.8", "manage.py", "migrate"]
+RUN python3 manage.py collectstatic --noinput
+RUN python3 manage.py makemigrations --noinput
+RUN python3 manage.py migrate --noinput
 
 ## Start uWSGI
 CMD ["uwsgi", "--show-config"]
