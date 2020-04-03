@@ -25,7 +25,7 @@ SECRET_KEY = '((8&#%*_i+px5h18@4!wy&gdc3kcxjb9k9wgddl_nimaol@!#d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1']
 
 KAVENEGAR_API_KEY = '316249736A4D662B556D58676250314B497146656F413D3D'
 GHASEDAK_API_KEY = '6c7c464cebd2eaa94dd6723e8a5846cd8741f48518b8f43d53fbab5105d6a1e0'
