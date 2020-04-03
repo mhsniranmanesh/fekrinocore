@@ -9,8 +9,8 @@ services:
       - POSTGRES_DBNAME=fekrino-db
     volumes:
       - postgres:/var/lib/postgresql
-#    networks:
-#      - backend
+    networks:
+      - backend
     expose:
       - "5432"
     restart: always
@@ -27,12 +27,13 @@ services:
       - media:/media
     ports:
       - "8000:8000"
+      - "5432:5432"
     links:
       - postgres:postgres
     depends_on:
       - postgres
-#    networks:
-#      - backend
+    networks:
+      - backend
     restart: on-failure
 
 volumes:
@@ -41,5 +42,5 @@ volumes:
   media:
 
 
-#networks:
-#  backend:
+networks:
+  backend:
