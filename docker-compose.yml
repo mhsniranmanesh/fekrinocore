@@ -29,7 +29,6 @@ services:
       - media:/media
     ports:
       - "8000:8000"
-      - "5432:5432"
 #    links:
 #      - postgres:postgres
     depends_on:
