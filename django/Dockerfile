@@ -43,7 +43,7 @@ EXPOSE 8000
 # Add any static environment variables needed by Django or your settings file here:
 ENV DJANGO_SETTINGS_MODULE=fekrino.settings
 
-RUN python3 manage.py collectstatic --noinput
+RUN sudo python3 manage.py collectstatic --noinput
 
 ENV UWSGI_WSGI_FILE=fekrino/wsgi.py
 
