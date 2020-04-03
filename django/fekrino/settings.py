@@ -44,7 +44,7 @@ if IS_IN_PRODUCTION is True:
             'NAME': 'fekrino-db',
             'USER': 'mohsen',
             'PASSWORD': 'pdnejoh',
-            'HOST': 'localhost',
+            'HOST': 'postgres',
             'PORT': '5432'
         }
     }

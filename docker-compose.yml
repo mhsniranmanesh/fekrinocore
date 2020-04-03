@@ -12,10 +12,12 @@ services:
     networks:
       - backend
     expose:
-      - "5432"
+      - 5432
     ports:
-      - "5432:5432"
+      - 5432:5432
     restart: always
+    container_name:
+      - postgres
     # restart: on-failure
   api:
     build: ./django
@@ -27,21 +29,22 @@ services:
       - ./django:/code
       - static:/static
       - media:/media
+      - logs:/logs
     ports:
-      - "8000:8000"
-    links:
-      - postgres:postgres
+      - 8000:8000
     depends_on:
       - postgres
     networks:
       - backend
     restart: on-failure
+    container_name:
+      - api
 
 volumes:
   postgres:
   static:
   media:
-
+  logs:
 
 networks:
   backend:
