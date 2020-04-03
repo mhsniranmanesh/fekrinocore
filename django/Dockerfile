@@ -68,10 +68,13 @@ USER ${APP_USER}:${APP_USER}
 
 # Uncomment after creating your docker-entrypoint.sh
 #ENTRYPOINT ["/code/docker-entrypoint.sh"]
-#
+
+CMD ["python", "manage.py", "collectstatic"]
+CMD ["python", "manage.py", "makemigrations"]
+CMD ["python", "manage.py", "migrate"]
+
 ## Start uWSGI
-#CMD ["uwsgi", "--show-config"]
+CMD ["uwsgi", "--show-config"]
 
 
 # CMD [ "./run.sh"]
-# CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
