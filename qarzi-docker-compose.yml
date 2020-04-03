@@ -1,0 +1,128 @@
+version: '3'
+
+services: 
+  api:
+    build: ./api
+    container_name: 'api'
+    volumes:
+      - ./api:/code
+      - static:/static  
+      - media:/media 
+    environment:
+      - DJANGO_CONFIGURATION
+    depends_on: 
+      - postgres
+      # - logstash
+    env_file: ./.env
+    networks:
+      - nginx_network
+      - db-network
+
+  redis:
+    image: "redis:alpine"
+    restart: always
+    networks:
+        - nginx_network
+
+  celery:
+    build: ./api
+    command: >
+      bash -c "celery -A api worker -l info"
+    volumes:
+      - ./api:/code
+      - media:/media 
+    environment:
+      - DJANGO_CONFIGURATION
+    env_file: ./.env
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - nginx_network
+
+
+#########   NOT WORKING #############
+  celery-beat:
+    build: ./api
+    command: >
+      bash -c "celery -A api beat -l info"
+    volumes:
+      - ./api:/code
+    environment:
+      - DJANGO_CONFIGURATION
+    env_file: ./.env
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - nginx_network
+######################################
+
+
+  postgres:
+    image: postgres:11.4
+    container_name: 'postgres'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file: ./.env
+    restart: always
+    networks:
+      - db-network
+
+
+#########   NOT WORKING #############
+  dbbackup:
+    image: kartoza/pg-backup:9.6
+    volumes:
+      - ./backups:/backups
+    links:
+      - postgres:db
+    env_file: ./.env
+######################################
+
+ nginx:
+  image: nginx:1.13
+  container_name: nginx
+  ports:
+    - 80:80
+    - 443:443
+  volumes:
+    - ./nginx:/etc/nginx/conf.d
+    - ./certbot/conf:/etc/letsencrypt
+    - ./certbot/www:/var/www/certbot
+    - nginx_logs:/var/log/nginx
+    - static:/api/static
+    - media:/api/media
+  depends_on:
+    - api
+  networks:
+    - nginx_network
+    - elk
+
+  restart: always
+  command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+
+certbot:
+  image: certbot/certbot
+  container_name: certbot
+  restart: always
+  environment:
+    - DJANGO_CONFIGURATION=Production
+  networks:
+    - nginx_network
+  volumes:
+    - ./certbot/conf:/etc/letsencrypt
+    - ./certbot/www:/var/www/certbot
+  entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+
+volumes:
+  postgres_data:
+  static:
+  media:
+  # 
+      
+networks:
+  nginx_network:   
+  db-network:
+  
