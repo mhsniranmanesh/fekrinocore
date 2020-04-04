@@ -1,7 +1,9 @@
 FROM ubuntu:18.04
 
 ARG APP_USER=ubuntu
-RUN groupadd -r ${APP_USER} && useradd --no-log-init -r -g ${APP_USER} ${APP_USER}
+
+RUN adduser ${APP_USER}
+RUN usermod -aG sudo ${APP_USER}
 
 RUN apt update -y
 RUN apt-get update -y
