@@ -1,6 +1,9 @@
 version: '3'
 
 services:
+  rabbitmq:
+    image: rabbitmq:3.8.3
+    container_name: rabbitmq
   postgres:
     image: kartoza/postgis:12.0
     environment: 
@@ -56,6 +59,7 @@ services:
       - postgres
       - rabbitmq
       - celery-beat
+    restart: on-failure
     container_name: celery
   celery-beat:
     build: ./django
@@ -70,10 +74,8 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+    restart: on-failure
     container_name: celery-beat
-
-  rabbitmq:
-    image: rabbitmq:3.8.3
 
 volumes:
   postgres:
