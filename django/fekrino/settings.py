@@ -36,25 +36,26 @@ IS_IN_PRODUCTION = True
 
 if IS_IN_PRODUCTION is True:
 
-    DATABASE_NAME = os.environ['POSTGRES_DBNAME']
-    DATABASE_USER = os.environ['POSTGRES_USER']
-    DATABASE_PASSWORD = os.environ['POSTGRES_PASSWORD']
-    DATABASE_HOST = os.environ['POSTGRES_HOST']
-    DATABASE_PORT = os.environ['POSTGRES_PORT']
-    CELERY_BROKER_URL = os.environ['CELERY_BROKER_URL']
+    # DATABASE_NAME = os.environ['POSTGRES_DBNAME']
+    # DATABASE_USER = os.environ['POSTGRES_USER']
+    # DATABASE_PASSWORD = os.environ['POSTGRES_PASSWORD']
+    # DATABASE_HOST = os.environ['POSTGRES_HOST']
+    # DATABASE_PORT = os.environ['POSTGRES_PORT']
+    # CELERY_BROKER_URL = os.environ['CELERY_BROKER_URL']
 
     DEBUG = False
     SEND_SMS = True
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
-            'NAME': DATABASE_NAME,
-            'USER': DATABASE_USER,
-            'PASSWORD': DATABASE_PASSWORD,
-            'HOST': DATABASE_HOST,
-            'PORT': DATABASE_PORT
+            'NAME': 'fekrino-db',
+            'USER': 'mohsen',
+            'PASSWORD': 'pdnejoh',
+            'HOST': 'postgres',
+            'PORT': '5432'
         }
     }
+    CELERY_BROKER_URL = 'amqp://rabbitmq:5672'
 
 else:
     DEBUG = True
