@@ -43,6 +43,7 @@ services:
     networks:
       - backend
     restart: on-failure
+    entrypoint: /code/api-entrypoint.sh
     container_name: api
 
   celery:
@@ -60,6 +61,7 @@ services:
       - rabbitmq
       - celery-beat
     restart: on-failure
+    entrypoint: /code/celery-entrypoint.sh
     container_name: celery
   celery-beat:
     build: ./django
@@ -75,6 +77,7 @@ services:
       - postgres
       - rabbitmq
     restart: on-failure
+    entrypoint: /code/celery-beat-entrypoint.sh
     container_name: celery-beat
 
 volumes:
