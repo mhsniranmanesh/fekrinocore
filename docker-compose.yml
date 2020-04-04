@@ -7,6 +7,9 @@ services:
       - POSTGRES_USER=mohsen
       - POSTGRES_PASS=pdnejoh
       - POSTGRES_DBNAME=fekrino-db
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - CELERY_BROKER_URL = 'amqp://rabbitmq:5672'
     volumes:
       - postgres:/var/lib/postgresql
     networks:
@@ -15,12 +18,13 @@ services:
       - 5432
     ports:
       - 5432:5432
-    restart: always
+    restart: on-failure
     container_name: postgres
-    # restart: on-failure
+
   api:
     build: ./django
-    environment: 
+    image: &img api
+    environment: &env
       - POSTGRES_USER=mohsen
       - POSTGRES_PASS=pdnejoh
       - POSTGRES_DBNAME=fekrino-db
@@ -37,6 +41,36 @@ services:
       - backend
     restart: on-failure
     container_name: api
+
+  celery:
+    build: ./django
+    image: *img
+    command: celery -A proj worker -l info
+    environment: *env
+    volumes:
+      - ./django:/code
+      - static:/static
+      - media:/media
+      - logs:/logs
+    depends_on:
+      - postgres
+      - rabbitmq
+      - celery-beat
+    container_name: celery
+  celery-beat:
+    build: ./django
+    image: *img
+    command: celery -A proj beat -l info
+    environment: *env
+    volumes:
+      - ./django:/code
+      - static:/static
+      - media:/media
+      - logs:/logs
+    depends_on:
+      - postgres
+      - rabbitmq
+    container_name: celery-beat
 
   rabbitmq:
     image: rabbitmq:3.8.3
