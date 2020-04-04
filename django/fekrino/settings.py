@@ -34,20 +34,28 @@ GHASEDAK_API_KEY = '6c7c464cebd2eaa94dd6723e8a5846cd8741f48518b8f43d53fbab5105d6
 
 IS_IN_PRODUCTION = True
 
-
 if IS_IN_PRODUCTION is True:
+
+    DATABASE_NAME = os.environ['POSTGRES_DBNAME']
+    DATABASE_USER = os.environ['POSTGRES_USER']
+    DATABASE_PASSWORD = os.environ['POSTGRES_PASSWORD']
+    DATABASE_HOST = os.environ['POSTGRES_HOST']
+    DATABASE_PORT = os.environ['POSTGRES_PORT']
+    CELERY_BROKER_URL = os.environ['CELERY_BROKER_URL']
+
     DEBUG = False
     SEND_SMS = True
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
-            'NAME': 'fekrino-db',
-            'USER': 'mohsen',
-            'PASSWORD': 'pdnejoh',
-            'HOST': 'postgres',
-            'PORT': '5432'
+            'NAME': DATABASE_NAME,
+            'USER': DATABASE_USER,
+            'PASSWORD': DATABASE_PASSWORD,
+            'HOST': DATABASE_HOST,
+            'PORT': DATABASE_PORT
         }
     }
+
 else:
     DEBUG = True
     SEND_SMS = True
@@ -61,6 +69,7 @@ else:
             'PORT': '25432'
         }
     }
+    CELERY_BROKER_URL = 'amqp://localhost'
 
 
 INSTALLED_APPS = [
@@ -212,5 +221,3 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-CELERY_BROKER_URL = 'amqp://localhost'
