@@ -38,6 +38,9 @@ services:
     restart: on-failure
     container_name: api
 
+  rabbitmq:
+    image: rabbitmq:3.8.3
+
 volumes:
   postgres:
   static:
