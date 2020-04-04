@@ -9,7 +9,7 @@ services:
       - POSTGRES_DBNAME=fekrino-db
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
-      - CELERY_BROKER_URL = 'amqp://rabbitmq:5672'
+      - CELERY_BROKER_URL='amqp://rabbitmq:5672'
     volumes:
       - postgres:/var/lib/postgresql
     networks:
