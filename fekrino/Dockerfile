@@ -38,6 +38,7 @@ COPY requirments.txt /fekrino/
 RUN pip install -r requirments.txt
 
 COPY . /fekrino/
+RUN mkdir /fekrino/logs
 
 # Add any static environment variables needed by Django or your settings file here:
 ENV DJANGO_SETTINGS_MODULE=fekrino.settings
