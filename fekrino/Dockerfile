@@ -33,12 +33,12 @@ RUN apt-get install -y gdal-bin \
 ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /fekrino
+RUN mkdir /fekrino/logs
 WORKDIR /fekrino
 COPY requirments.txt /fekrino/
 RUN pip install -r requirments.txt
 
 COPY . /fekrino/
-RUN mkdir logs
 
 # Add any static environment variables needed by Django or your settings file here:
 ENV DJANGO_SETTINGS_MODULE=fekrino.settings
