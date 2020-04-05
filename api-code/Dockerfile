@@ -34,10 +34,10 @@ ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /code
 WORKDIR /code
-COPY ./requirments.txt /code/
+COPY requirments.txt /code/
 RUN pip install -r requirments.txt
 
-COPY . /code/
+COPY ../abcdefg /code/
 
 # uWSGI will listen on this port
 EXPOSE 8000

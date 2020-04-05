@@ -6,7 +6,7 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 
-from fekrino.profiles.models.user import User
+from .user import User
 
 
 def profile_picture_attachment_path(instance, filename):

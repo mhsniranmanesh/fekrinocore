@@ -5,7 +5,7 @@ from celery import Celery
 from django.core.mail import EmailMultiAlternatives
 from kavenegar import KavenegarAPI
 
-from fekrino.fekrino.settings import KAVENEGAR_API_KEY
+from fekrino.settings import KAVENEGAR_API_KEY
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fekrino.settings')
 

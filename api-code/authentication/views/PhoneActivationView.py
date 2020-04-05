@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from fekrino.authentication.models.phoneActivation import PhoneActivationToken
 from fekrino.authentication.serializers.PhoneActivationSerializer import GetPhoneTokenSerializer, VerifyPhoneTokenSerializer
 from fekrino.authentication.utils.PhoneActivationUtils import create_otp_token
-from fekrino.fekrino.utils.smsUtils import send_sms
+from fekrino.utils.smsUtils import send_sms
 from fekrino.profiles.models.user import User
 from fekrino.profiles.utils.userUtils import create_user_random_password
 
