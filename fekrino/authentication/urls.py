@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from fekrino.authentication.views.PhoneActivationView import GetPhoneTokenView, VerifyPhoneTokenView
+from authentication.views.PhoneActivationView import GetPhoneTokenView, VerifyPhoneTokenView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,

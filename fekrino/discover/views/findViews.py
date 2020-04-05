@@ -6,8 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from fekrino.discover.serializers.findSerializers import FindNearSerializer, NearUserSerializer
-from fekrino.profiles.models.user import User
+from discover.serializers.findSerializers import FindNearSerializer, NearUserSerializer
+from profiles.models.user import User
 
 
 class FindNearView(APIView):

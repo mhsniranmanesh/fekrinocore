@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from fekrino.profiles.models.user import User
-from fekrino.profiles.validators.userValidators import NameValidator, PhoneNumberValidator
+from profiles.models.user import User
+from profiles.validators.userValidators import NameValidator, PhoneNumberValidator
 
 
 class UserEmailActivationSerializer(serializers.ModelSerializer):

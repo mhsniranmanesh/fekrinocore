@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from fekrino.authentication.models.phoneActivation import PhoneActivationToken
-from fekrino.profiles.validators.userValidators import PhoneNumberValidator
+from authentication.models.phoneActivation import PhoneActivationToken
+from profiles.validators.userValidators import PhoneNumberValidator
 
 
 class GetPhoneTokenSerializer(serializers.ModelSerializer):

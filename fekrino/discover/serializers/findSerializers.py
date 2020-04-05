@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from fekrino.profiles.models.user import User
-from fekrino.profiles.serializers.profilePictureSerializers import GetProfilePictureSerializer
+from profiles.models.user import User
+from profiles.serializers.profilePictureSerializers import GetProfilePictureSerializer
 
 
 class FindNearSerializer(serializers.Serializer):

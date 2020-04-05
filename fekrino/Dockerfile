@@ -32,12 +32,12 @@ RUN apt-get install -y gdal-bin \
 
 ENV PYTHONUNBUFFERED 1
 
-RUN mkdir /code
-WORKDIR /code
-COPY requirments.txt /code/
+RUN mkdir /fekrino
+WORKDIR /fekrino
+COPY requirments.txt /fekrino/
 RUN pip install -r requirments.txt
 
-COPY ../abcdefg /code/
+COPY ../fekrino /fekrino/
 
 # uWSGI will listen on this port
 EXPOSE 8000
@@ -55,7 +55,7 @@ ENV UWSGI_WORKERS=2 UWSGI_THREADS=4
 
 USER ${APP_USER}:${APP_USER}
 
-#ENTRYPOINT ["/code/api-entrypoint.sh"]
+#ENTRYPOINT ["/fekrino/api-entrypoint.sh"]
 
 ### Start uWSGI
 #CMD ["uwsgi", "--show-config"]

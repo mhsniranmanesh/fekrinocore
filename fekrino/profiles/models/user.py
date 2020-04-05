@@ -6,7 +6,8 @@ from django.contrib.gis.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from fekrino.profiles.constants.userConstants import Constants
+from fekrino.utils.smsUtils import send_sms
+from profiles.constants.userConstants import Constants
 
 
 class User(AbstractBaseUser, PermissionsMixin):

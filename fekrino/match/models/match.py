@@ -1,7 +1,7 @@
 import uuid as uuid_lib
 from django.contrib.gis.db import models
 from django.utils import timezone
-from fekrino.profiles.models.user import User
+from profiles.models.user import User
 
 
 class Like(models.Model):

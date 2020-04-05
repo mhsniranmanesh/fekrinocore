@@ -32,7 +32,7 @@ services:
       - POSTGRES_PASS=pdnejoh
       - POSTGRES_DBNAME=fekrino-db
     volumes:
-      - ./fekrino:/code
+      - ./fekrino:/fekrino
       - static:/static
       - media:/media
       - logs:/logs
@@ -43,7 +43,7 @@ services:
     networks:
       - backend
     restart: on-failure
-    entrypoint: /code/api-entrypoint.sh
+    entrypoint: /fekrino/api-entrypoint.sh
     container_name: api
 
   celery:
@@ -51,7 +51,7 @@ services:
     image: *img
     environment: *env
     volumes:
-      - ./fekrino:/code
+      - ./fekrino:/fekrino
       - static:/static
       - media:/media
       - logs:/logs
@@ -60,14 +60,14 @@ services:
       - rabbitmq
       - celery-beat
     restart: on-failure
-    entrypoint: /code/celery-entrypoint.sh
+    entrypoint: /fekrino/celery-entrypoint.sh
     container_name: celery
   celery-beat:
     build: fekrino
     image: *img
     environment: *env
     volumes:
-      - ./fekrino:/code
+      - ./fekrino:/fekrino
       - static:/static
       - media:/media
       - logs:/logs
@@ -75,7 +75,7 @@ services:
       - postgres
       - rabbitmq
     restart: on-failure
-    entrypoint: /code/celery-beat-entrypoint.sh
+    entrypoint: /fekrino/celery-beat-entrypoint.sh
     container_name: celery-beat
 
 volumes:

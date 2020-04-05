@@ -1,4 +1,3 @@
-from django.core.validators import RegexValidator
 from rest_framework.serializers import ValidationError
 import re
 

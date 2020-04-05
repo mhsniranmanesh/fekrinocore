@@ -1,5 +1,5 @@
 from django.contrib import admin
-from fekrino.profiles.models.user import User
+from profiles.models.user import User
 from django.contrib.gis.admin import OSMGeoAdmin
 
 # admin.site.register(User, UserAdmin)
