@@ -39,19 +39,15 @@ RUN pip install -r requirments.txt
 
 COPY . /fekrino/
 
-# uWSGI will listen on this port
-EXPOSE 8000
-
 # Add any static environment variables needed by Django or your settings file here:
 ENV DJANGO_SETTINGS_MODULE=fekrino.settings
 
 RUN python3 manage.py collectstatic --noinput
 
 ENV UWSGI_WSGI_FILE=fekrino/wsgi.py
-
-ENV UWSGI_HTTP=:8000 UWSGI_MASTER=1 UWSGI_HTTP_AUTO_CHUNKED=1 UWSGI_HTTP_KEEPALIVE=1 UWSGI_LAZY_APPS=1 UWSGI_WSGI_ENV_BEHAVIOR=holy
-
+ENV UWSGI_MASTER=1 UWSGI_WSGI_ENV_BEHAVIOR=holy
 ENV UWSGI_WORKERS=2 UWSGI_THREADS=4
+ENV UWSGI_SOCKET=fekrino.sock UWSGI_VACUUM=true
 
 USER ${APP_USER}:${APP_USER}
 

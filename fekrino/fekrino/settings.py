@@ -32,7 +32,7 @@ GHASEDAK_API_KEY = '6c7c464cebd2eaa94dd6723e8a5846cd8741f48518b8f43d53fbab5105d6
 # Application definition
 
 
-IS_IN_PRODUCTION = True
+IS_IN_PRODUCTION = False
 
 if IS_IN_PRODUCTION is True:
 
@@ -82,7 +82,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'rest_framework',
-    'channels',
+    # 'channels',
     'imagekit',
     'profiles',
     'authentication',
@@ -123,16 +123,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fekrino.wsgi.application'
 
-ASGI_APPLICATION = "fekrino.routing.application"
+# ASGI_APPLICATION = "fekrino.routing.application"
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
 
 AUTH_USER_MODEL = 'profiles.User'
 
@@ -197,7 +197,83 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': datetime.timedelta(days=30),
 }
 
-
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'debug-file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/debug.log'),
+            'formatter': 'verbose',
+            'maxBytes': 10485760,
+            'backupCount': 20,
+        },
+        'error-file': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/error.log'),
+            # 'formatter': 'verbose',
+            # 'maxBytes': 10485760,
+            # 'backupCount': 20,
+        },
+        'critical-file': {
+            'level': 'CRITICAL',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/critical.log'),
+            'formatter': 'verbose',
+            'maxBytes': 10485760,
+            'backupCount': 20,
+        }
+        # 'mail_admins': {
+        #     'level': 'CRITICAL',
+        #     'class': 'django.utils.log.AdminEmailHandler',
+        #     'formatter': 'verbose',
+        # }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['critical-file',  'error-file', 'debug-file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'authentication': {
+            'handlers': ['critical-file',  'error-file', 'debug-file'],
+            'level': 'INFO',
+        },
+        'discover': {
+            'handlers': ['critical-file', 'error-file', 'debug-file'],
+            'level': 'INFO',
+        },
+        'match': {
+            'handlers': ['critical-file', 'error-file', 'debug-file'],
+            'level': 'INFO',
+        },
+        'fekrino': {
+            'handlers': ['critical-file', 'error-file', 'debug-file'],
+            'level': 'INFO',
+        },
+        'profiles': {
+            'handlers': ['critical-file', 'error-file', 'debug-file'],
+            'level': 'INFO',
+        }
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
