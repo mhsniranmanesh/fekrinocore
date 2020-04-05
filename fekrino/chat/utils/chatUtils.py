@@ -8,7 +8,7 @@ import sys
 def get_user_from_session(session_key):
     """
     Gets the user from current User model using the passed session_key
-    :param session_key: fekrino_api.contrib.sessions.models.Session - session_key
+    :param session_key: fekrino.contrib.sessions.models.Session - session_key
     :return: User instance or None if not found
     """
     session = Session.objects.get(session_key=session_key)
@@ -32,7 +32,7 @@ def get_dialogs_with_user(user_1, user_2):
 logging.basicConfig(level=logging.DEBUG,
                     format="%(asctime)s:%(levelname)s:%(message)s",
                     datefmt='%d.%m.%y %H:%M:%S')
-logger = logging.getLogger('fekrino_api-private-dialog')
+logger = logging.getLogger('fekrino-private-dialog')
 formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(message)s')
 handler = logging.StreamHandler(stream=sys.stdout)
 handler.setFormatter(formatter)
