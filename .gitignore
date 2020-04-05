@@ -17,6 +17,8 @@ node_modules
 **/media/*
 **/static/*
 **/logs/*
+!**/migrations/test_log
+
 *.bak
 **/dbdata/*
 # Celery
