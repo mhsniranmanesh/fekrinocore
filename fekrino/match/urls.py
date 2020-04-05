@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
-from discover.views.findViews import FindNearView
-from match.views.matchViews import LikeUserView, DislikeUserView
+from fekrino.discover.views.findViews import FindNearView
+from fekrino.match.views.matchViews import LikeUserView, DislikeUserView
 
 urlpatterns = {
     url(r'^like/$', LikeUserView.as_view(), name="like-user"),

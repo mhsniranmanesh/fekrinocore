@@ -3,10 +3,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from profiles.models.profilePicture import ProfilePicture
-from profiles.serializers.profilePictureSerializers import SetProfilePictureSerializer, DeleteProfilePictureSerializer, \
+from fekrino.profiles.models.profilePicture import ProfilePicture
+from fekrino.profiles.serializers.profilePictureSerializers import SetProfilePictureSerializer, DeleteProfilePictureSerializer, \
     GetProfilePictureSerializer, SetProfilePicturePrioritySerializer
-from profiles.utils.profilePictureUtils import generate_resized_picture
+from fekrino.profiles.utils.profilePictureUtils import generate_resized_picture
 
 
 class ProfilePictureView(APIView):

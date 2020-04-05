@@ -8,10 +8,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from profiles.models.user import User
-from profiles.serializers.userSerializers import CreateUserSerializer, UserUpdateInfosSerializer, \
+from fekrino.profiles.models.user import User
+from fekrino.profiles.serializers.userSerializers import CreateUserSerializer, UserUpdateInfosSerializer, \
     UserUpdateLocationSerializer
-from profiles.utils.userUtils import create_user_random_password
+from fekrino.profiles.utils.userUtils import create_user_random_password
 
 
 class UserCreateView(CreateAPIView):

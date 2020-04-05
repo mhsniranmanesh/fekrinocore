@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from profiles.models.profilePicture import ProfilePicture
+from fekrino.profiles.models.profilePicture import ProfilePicture
 
 
 class SetProfilePictureSerializer(serializers.ModelSerializer):

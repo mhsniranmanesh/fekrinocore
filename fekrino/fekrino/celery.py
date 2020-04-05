@@ -1,9 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
-import ghasedak
-# set the default Django settings module for the 'celery' program.
-from celery.schedules import crontab
 
 from django.core.mail import EmailMultiAlternatives
 from kavenegar import KavenegarAPI

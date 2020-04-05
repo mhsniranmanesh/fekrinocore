@@ -1,8 +1,8 @@
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from profiles.views.profilePictureViews import ProfilePictureView, SetProfilePicturePriorityView
-from profiles.views.userViews import UserCreateView, UserUpdateInfosView, UserUpdateLocationView
+from fekrino.profiles.views.profilePictureViews import ProfilePictureView, SetProfilePicturePriorityView
+from fekrino.profiles.views.userViews import UserCreateView, UserUpdateInfosView, UserUpdateLocationView
 
 urlpatterns = {
     url(r'^$', UserCreateView.as_view(), name="create-user"),

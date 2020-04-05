@@ -2,9 +2,9 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from match.models.match import Like, Dislike, Match
-from match.serializers.matchSerializers import LikeAndDislikeUserSerializer
-from profiles.models.user import User
+from fekrino.match.models.match import Like, Dislike, Match
+from fekrino.match.serializers.matchSerializers import LikeAndDislikeUserSerializer
+from fekrino.profiles.models.user import User
 
 
 class LikeUserView(APIView):

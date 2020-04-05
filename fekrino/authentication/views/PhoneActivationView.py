@@ -5,12 +5,12 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from authentication.models.phoneActivation import PhoneActivationToken
-from authentication.serializers.PhoneActivationSerializer import GetPhoneTokenSerializer, VerifyPhoneTokenSerializer
-from authentication.utils.PhoneActivationUtils import create_otp_token
-from fekrino.utils.smsUtils import send_sms
-from profiles.models.user import User
-from profiles.utils.userUtils import create_user_random_password
+from fekrino.authentication.models.phoneActivation import PhoneActivationToken
+from fekrino.authentication.serializers.PhoneActivationSerializer import GetPhoneTokenSerializer, VerifyPhoneTokenSerializer
+from fekrino.authentication.utils.PhoneActivationUtils import create_otp_token
+from fekrino.fekrino.utils.smsUtils import send_sms
+from fekrino.profiles.models.user import User
+from fekrino.profiles.utils.userUtils import create_user_random_password
 
 import logging
 

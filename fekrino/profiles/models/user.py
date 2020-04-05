@@ -4,9 +4,10 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 import uuid as uuid_lib
 from django.contrib.gis.db import models
 from django.utils import timezone
-from fekrino.utils.smsUtils import send_sms
-from profiles.constants.userConstants import Constants
 from django.utils.translation import ugettext_lazy as _
+
+from fekrino.fekrino.utils.smsUtils import send_sms
+from fekrino.profiles.constants.userConstants import Constants
 
 
 class User(AbstractBaseUser, PermissionsMixin):

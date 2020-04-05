@@ -1,4 +1,4 @@
-"""fekrino URL Configuration
+"""django URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
@@ -10,7 +10,7 @@ Class-based views
     1. Add an import:  from other_app.views import Home
     2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
 Including another URLconf
-    1. Import the include() function: from fekrino.conf.urls import url, include
+    1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^api/v1/auth/', include('authentication.urls')),
     url(r'^api/v1/match/', include('match.urls')),
     url(r'^api/v1/discover/', include('discover.urls')),
-    url(r'^chat/', include('chat.urls')),
+    # url(r'^chat/', include('chat.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
