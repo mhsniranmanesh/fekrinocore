@@ -17,7 +17,7 @@ node_modules
 **/media/*
 **/static/*
 **/logs/*
-!**/migrations/test_log
+!**/logs/test_log
 
 *.bak
 **/dbdata/*
