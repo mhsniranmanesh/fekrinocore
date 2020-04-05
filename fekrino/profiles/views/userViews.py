@@ -1,12 +1,9 @@
-from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.gis.geos import Point
 from django.db import IntegrityError
-from django.utils.crypto import get_random_string
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from fekrino.profiles.models.user import User
 from fekrino.profiles.serializers.userSerializers import CreateUserSerializer, UserUpdateInfosSerializer, \

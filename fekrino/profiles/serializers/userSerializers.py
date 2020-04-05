@@ -2,9 +2,6 @@ from rest_framework import serializers
 
 from fekrino.profiles.models.user import User
 from fekrino.profiles.validators.userValidators import NameValidator, PhoneNumberValidator
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
 
 
 class UserEmailActivationSerializer(serializers.ModelSerializer):

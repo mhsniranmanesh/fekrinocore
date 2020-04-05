@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from fekrino.authentication.models.phoneActivation import PhoneActivationToken
-from fekrino.profiles.models.user import User
 from fekrino.profiles.validators.userValidators import PhoneNumberValidator
 
 
