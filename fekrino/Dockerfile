@@ -37,7 +37,7 @@ WORKDIR /fekrino
 COPY requirments.txt /fekrino/
 RUN pip install -r requirments.txt
 
-COPY ../fekrino /fekrino/
+COPY . /fekrino/
 
 # uWSGI will listen on this port
 EXPOSE 8000
