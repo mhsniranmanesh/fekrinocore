@@ -15,7 +15,7 @@ node_modules
 *.sock
 **/local_settings.py
 **/media/*
-api-code/static/*
+**/static/*
 **/logs/*
 *.bak
 **/dbdata/*
