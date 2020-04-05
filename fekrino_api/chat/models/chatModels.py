@@ -1,4 +1,4 @@
-# from django.db import models
+# from fekrino_api.db import models
 # from profiles.models.user import User
 #
 #

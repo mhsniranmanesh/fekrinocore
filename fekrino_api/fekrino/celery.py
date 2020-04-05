@@ -8,11 +8,11 @@ from celery.schedules import crontab
 from django.core.mail import EmailMultiAlternatives
 from kavenegar import KavenegarAPI
 
-from fekrino.settings import KAVENEGAR_API_KEY, GHASEDAK_API_KEY
+from fekrino_api.fekrino.settings import KAVENEGAR_API_KEY
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'coronacore.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fekrino.settings')
 
-app = Celery('coronacore')
+app = Celery('fekrino')
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 

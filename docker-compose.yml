@@ -25,14 +25,14 @@ services:
     container_name: postgres
 
   api:
-    build: ./django
+    build: fekrino_api
     image: &img api
     environment: &env
       - POSTGRES_USER=mohsen
       - POSTGRES_PASS=pdnejoh
       - POSTGRES_DBNAME=fekrino-db
     volumes:
-      - ./django:/code
+      - ./fekrino_api:/code
       - static:/static
       - media:/media
       - logs:/logs
@@ -47,12 +47,12 @@ services:
     container_name: api
 
   celery:
-    build: ./django
+    build: fekrino_api
     image: *img
-    command: celery -A proj worker -l info
+    command: celery -A fekrinocore worker -l info
     environment: *env
     volumes:
-      - ./django:/code
+      - ./fekrino_api:/code
       - static:/static
       - media:/media
       - logs:/logs
@@ -64,12 +64,12 @@ services:
     entrypoint: /code/celery-entrypoint.sh
     container_name: celery
   celery-beat:
-    build: ./django
+    build: fekrino_api
     image: *img
-    command: celery -A proj beat -l info
+    command: celery -A fekrinocore beat -l info
     environment: *env
     volumes:
-      - ./django:/code
+      - ./fekrino_api:/code
       - static:/static
       - media:/media
       - logs:/logs
