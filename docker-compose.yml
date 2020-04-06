@@ -13,6 +13,7 @@ services:
     restart: on-failure
     volumes:
       - "redis:/data"
+    container_name: redis
   postgres:
     image: kartoza/postgis:12.0
     environment: 
