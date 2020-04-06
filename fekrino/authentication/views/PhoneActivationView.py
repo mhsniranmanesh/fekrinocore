@@ -12,16 +12,15 @@ from fekrino.utils.smsUtils import send_sms
 from profiles.models.user import User
 from profiles.utils.userUtils import create_user_random_password
 
-import logging
+# import logging
 
-logger = logging.getLogger('authentication')
+#logger = logging.getlogger('authentication')
 
 
 class GetPhoneTokenView(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
-        return Response(data={'message': 'token sent again'}, status=status.HTTP_201_CREATED)
         serializer = GetPhoneTokenSerializer(data=request.data)
         pattern = 'fekrino'
         if request.query_params.__contains__('pattern'):
@@ -39,28 +38,28 @@ class GetPhoneTokenView(APIView):
                     token = create_otp_token()
                     new_otp = PhoneActivationToken.objects.create(phone_number=phone_number, is_last=True, token=token)
                     send_sms(phone_number, new_otp.token, pattern)
-                    logger.info("OTP successfully sent")
+                    #logger.info("OTP successfully sent")
                     return Response(data={'message': 'new token successfully sent'}, status=status.HTTP_201_CREATED)
                 elif old_otp.is_again:
-                    logger.warning("OTP sent two times, waiting 2 mins")
+                    #logger.warning("OTP sent two times, waiting 2 mins")
                     return Response(data={'message': 'token sent two times, try again after 2 minutes'},
                                     status=status.HTTP_400_BAD_REQUEST)
                 else:
                     old_otp.is_again = True
                     old_otp.save()
                     send_sms(phone_number, old_otp.token, pattern)
-                    logger.info("OTP successfully sent again")
+                    #logger.info("OTP successfully sent again")
                     return Response(data={'message': 'token sent again'}, status=status.HTTP_201_CREATED)
             except PhoneActivationToken.DoesNotExist:
                 token = create_otp_token()
                 otp = PhoneActivationToken.objects.create(phone_number=phone_number, is_last=True, token=token)
                 send_sms(phone_number, otp.token, pattern)
-                logger.info("OTP successfully sent")
+                #logger.info("OTP successfully sent")
                 return Response(data={'message': 'token successfully sent'}, status=status.HTTP_201_CREATED)
             except Exception as e:
-                logger.error("exception during OTP : %s", e)
+                #logger.error("exception during OTP : %s", e)
                 return Response(data={'message': 'something went wrong'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        logger.warning("OTP serializer error %s", serializer.errors)
+        #logger.warning("OTP serializer error %s", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -71,15 +70,12 @@ class VerifyPhoneTokenView(APIView):
         serializer = VerifyPhoneTokenSerializer(data=request.data)
         if serializer.is_valid():
             try:
-                locale = 'en'
-                if 'locale' in serializer.validated_data.keys():
-                    locale = serializer.validated_data['locale']
                 phone_number = serializer.validated_data.get('phone_number')
                 token = serializer.validated_data.get('token')
                 otp = PhoneActivationToken.objects.filter(phone_number=phone_number, is_last=True).latest('id')
 
                 if timezone.now() - otp.date_created > timedelta(minutes=2):
-                    logger.warning("token expired")
+                    #logger.warning("token expired")
                     return Response(data={'message': 'token expired, get another'}, status=status.HTTP_400_BAD_REQUEST)
                 else:
                     if otp.token == token:
@@ -87,7 +83,6 @@ class VerifyPhoneTokenView(APIView):
                             user = User.objects.get(username=phone_number)
                             password = create_user_random_password()
                             user.set_password(password)
-                            user.locale = locale
                             user.save()
                             user_data = {
                                             'phone_number': user.phone_number,
@@ -96,7 +91,7 @@ class VerifyPhoneTokenView(APIView):
                                             'password': password,
                                             'is_new_user': False
                                         }
-                            logger.info("account created")
+                            #logger.info("account created")
                             return Response(data=user_data, status=status.HTTP_200_OK)
 
                         except User.DoesNotExist:
@@ -105,7 +100,6 @@ class VerifyPhoneTokenView(APIView):
                                 name='No name',
                                 phone_number=phone_number,
                                 is_active=True,
-                                locale=locale
                             )
                             password = create_user_random_password()
                             user.set_password(password)
@@ -117,20 +111,20 @@ class VerifyPhoneTokenView(APIView):
                                 'password': password,
                                 'is_new_user': True
                             }
-                            logger.info("account created")
+                            #logger.info("account created")
                             return Response(data=user_data, status=status.HTTP_201_CREATED)
                         except Exception as e:
-                            logger.error("Exceptions during varifying OTP: %s", e)
+                            #logger.error("Exceptions during varifying OTP: %s", e)
                             return Response(data={'message': 'something went wrong'},
                                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                     else:
-                        logger.warning("OTP is not correct")
+                        #logger.warning("OTP is not correct")
                         return Response(data={'message': 'token is not correct'}, status=status.HTTP_400_BAD_REQUEST)
             except PhoneActivationToken.DoesNotExist:
-                logger.warning("no token obtained for this number")
+                #logger.warning("no token obtained for this number")
                 return Response(data={'message': 'no token obtained for this number'}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
-                logger.error("Excetion During varifying OTP: %s", e)
+                #logger.error("Excetion During varifying OTP: %s", e)
                 return Response(data={'message': 'something went wrong'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        logger.warning("OTP verify serializer error")
+        #logger.warning("OTP verify serializer error")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
