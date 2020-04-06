@@ -14,7 +14,7 @@ services:
       - POSTGRES_PORT=5432
       - CELERY_BROKER_URL='amqp://rabbitmq:5672'
     volumes:
-      - postgres:/var/lib/postgresql
+      - ./dbdata:/var/lib/postgresql
     networks:
       - backend
     expose:
@@ -33,9 +33,6 @@ services:
       - POSTGRES_DBNAME=fekrino-db
     volumes:
       - ./fekrino:/fekrino
-      - static:/static
-      - media:/media
-      - logs:/logs
     depends_on:
       - postgres
     networks:
@@ -50,9 +47,6 @@ services:
     environment: *env
     volumes:
       - ./fekrino:/fekrino
-      - static:/static
-      - media:/media
-      - logs:/logs
     depends_on:
       - postgres
       - rabbitmq
@@ -66,21 +60,12 @@ services:
     environment: *env
     volumes:
       - ./fekrino:/fekrino
-      - static:/static
-      - media:/media
-      - logs:/logs
     depends_on:
       - postgres
       - rabbitmq
     restart: on-failure
     entrypoint: /fekrino/celery-beat-entrypoint.sh
     container_name: celery-beat
-
-volumes:
-  postgres:
-  static:
-  media:
-  logs:
 
 networks:
   backend:

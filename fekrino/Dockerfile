@@ -33,7 +33,6 @@ RUN apt-get install -y gdal-bin \
 ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /fekrino
-RUN mkdir /fekrino/logs
 WORKDIR /fekrino
 COPY requirments.txt /fekrino/
 RUN pip install -r requirments.txt
