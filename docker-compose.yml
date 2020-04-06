@@ -51,8 +51,6 @@ services:
       - postgres
       - rabbitmq
       - celery-beat
-    networks:
-      - backend
     restart: on-failure
     entrypoint: ["celery", "-A", "fekrino", "worker", "-l", "info"]
     container_name: celery
@@ -65,8 +63,6 @@ services:
     depends_on:
       - postgres
       - rabbitmq
-    networks:
-      - backend
     restart: on-failure
     entrypoint: ["celery", "-A", "fekrino", "beat", "-l", "info"]
     container_name: celery-beat
