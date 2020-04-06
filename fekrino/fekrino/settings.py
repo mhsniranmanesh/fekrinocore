@@ -55,7 +55,7 @@ if IS_IN_PRODUCTION is True:
             'PORT': '5432'
         }
     }
-    CELERY_BROKER_URL = 'amqp://rabbitmq:5672'
+    CELERY_BROKER_URL = 'pyamqp://rabbitmq:5672'
 
 else:
     DEBUG = True
@@ -84,11 +84,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'channels',
     'imagekit',
+    'django_celery_beat',
     'profiles',
     'authentication',
     'match',
     'discover',
-    'celery',
     # 'chat',
 ]
 
