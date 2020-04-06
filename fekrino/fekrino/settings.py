@@ -55,7 +55,7 @@ if IS_IN_PRODUCTION is True:
             'PORT': '5432'
         }
     }
-    CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672'
+    CELERY_BROKER_URL = 'amqp://rabbitmq:5672'
 
 else:
     DEBUG = True
