@@ -17,7 +17,7 @@ services:
   postgres:
     image: kartoza/postgis:12.0
     environment: 
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=mohsen
       - POSTGRES_PASS=pdnejoh
       - POSTGRES_DBNAME=fekrino-db
       - POSTGRES_HOST=postgres
@@ -37,12 +37,9 @@ services:
     build: fekrino
     image: &img api
     environment: &env
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=mohsen
       - POSTGRES_PASS=pdnejoh
       - POSTGRES_DBNAME=fekrino-db
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - CELERY_BROKER_URL='redis://redis:6379'
     volumes:
       - ./fekrino:/fekrino
     depends_on:

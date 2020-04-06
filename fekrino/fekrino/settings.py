@@ -49,7 +49,7 @@ if IS_IN_PRODUCTION is True:
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
             'NAME': 'fekrino-db',
-            'USER': 'postgres',
+            'USER': 'mohsen',
             'PASSWORD': 'pdnejoh',
             'HOST': 'postgres',
             'PORT': '5432'
