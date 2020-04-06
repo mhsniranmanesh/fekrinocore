@@ -55,7 +55,7 @@ if IS_IN_PRODUCTION is True:
             'PORT': '5432'
         }
     }
-    CELERY_BROKER_URL = 'redis://redis:6379'
+    CELERY_BROKER_URL = 'redis://@redis:6379'
 
 else:
     DEBUG = True
