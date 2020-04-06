@@ -21,46 +21,49 @@ class GetPhoneTokenView(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
-        serializer = GetPhoneTokenSerializer(data=request.data)
-        pattern = 'fekrino'
-        if request.query_params.__contains__('pattern'):
-            pattern = request.query_params['pattern']
-
-        if serializer.is_valid():
-            try:
-                phone_number = serializer.validated_data.get('phone_number')
-                old_otps = PhoneActivationToken.objects.filter(phone_number=phone_number, is_last=True)
-                old_otp = old_otps.latest('id')
-                if timezone.now() - old_otp.date_created > timedelta(minutes=2):
-                    for o_otp in old_otps:
-                        o_otp.is_last = False
-                        o_otp.save()
-                    token = create_otp_token()
-                    new_otp = PhoneActivationToken.objects.create(phone_number=phone_number, is_last=True, token=token)
-                    send_sms(phone_number, new_otp.token, pattern)
-                    #logger.info("OTP successfully sent")
-                    return Response(data={'message': 'new token successfully sent'}, status=status.HTTP_201_CREATED)
-                elif old_otp.is_again:
-                    #logger.warning("OTP sent two times, waiting 2 mins")
-                    return Response(data={'message': 'token sent two times, try again after 2 minutes'},
-                                    status=status.HTTP_400_BAD_REQUEST)
-                else:
-                    old_otp.is_again = True
-                    old_otp.save()
-                    send_sms(phone_number, old_otp.token, pattern)
-                    #logger.info("OTP successfully sent again")
-                    return Response(data={'message': 'token sent again'}, status=status.HTTP_201_CREATED)
-            except PhoneActivationToken.DoesNotExist:
-                token = create_otp_token()
-                otp = PhoneActivationToken.objects.create(phone_number=phone_number, is_last=True, token=token)
-                send_sms(phone_number, otp.token, pattern)
-                #logger.info("OTP successfully sent")
-                return Response(data={'message': 'token successfully sent'}, status=status.HTTP_201_CREATED)
-            except Exception as e:
-                #logger.error("exception during OTP : %s", e)
-                return Response(data={'message': 'something went wrong'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        #logger.warning("OTP serializer error %s", serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        send_sms('+989102334456', '123456', 'fectogram')
+        return Response(data={'message': 'token successfully sent'}, status=status.HTTP_201_CREATED)
+        # serializer = GetPhoneTokenSerializer(data=request.data)
+        # pattern = 'fekrino'
+        # if request.query_params.__contains__('pattern'):
+        #     pattern = request.query_params['pattern']
+        #
+        # if serializer.is_valid():
+        #     try:
+        #         phone_number = serializer.validated_data.get('phone_number')
+        #         old_otps = PhoneActivationToken.objects.filter(phone_number=phone_number, is_last=True)
+        #         old_otp = old_otps.latest('id')
+        #         if timezone.now() - old_otp.date_created > timedelta(minutes=2):
+        #             for o_otp in old_otps:
+        #                 o_otp.is_last = False
+        #                 o_otp.save()
+        #             token = create_otp_token()
+        #             new_otp = PhoneActivationToken.objects.create(phone_number=phone_number, is_last=True, token=token)
+        #             print("BEFORE SEND SMS")
+        #             send_sms(phone_number, new_otp.token, pattern)
+        #             #logger.info("OTP successfully sent")
+        #             return Response(data={'message': 'new token successfully sent'}, status=status.HTTP_201_CREATED)
+        #         elif old_otp.is_again:
+        #             #logger.warning("OTP sent two times, waiting 2 mins")
+        #             return Response(data={'message': 'token sent two times, try again after 2 minutes'},
+        #                             status=status.HTTP_400_BAD_REQUEST)
+        #         else:
+        #             old_otp.is_again = True
+        #             old_otp.save()
+        #             send_sms(phone_number, old_otp.token, pattern)
+        #             #logger.info("OTP successfully sent again")
+        #             return Response(data={'message': 'token sent again'}, status=status.HTTP_201_CREATED)
+        #     except PhoneActivationToken.DoesNotExist:
+        #         token = create_otp_token()
+        #         otp = PhoneActivationToken.objects.create(phone_number=phone_number, is_last=True, token=token)
+        #         send_sms(phone_number, otp.token, pattern)
+        #         #logger.info("OTP successfully sent")
+        #         return Response(data={'message': 'token successfully sent'}, status=status.HTTP_201_CREATED)
+        #     except Exception as e:
+        #         #logger.error("exception during OTP : %s", e)
+        #         return Response(data={'message': 'something went wrong'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # #logger.warning("OTP serializer error %s", serializer.errors)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class VerifyPhoneTokenView(APIView):
