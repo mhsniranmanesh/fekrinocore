@@ -38,7 +38,7 @@ services:
     networks:
       - backend
     restart: on-failure
-    entrypoint: /fekrino/api-entrypoint.sh
+    entrypoint: ~/docker/api/fekrino/celery-beat-entrypoint.sh
     container_name: api
 
   celery:
@@ -52,7 +52,7 @@ services:
       - rabbitmq
       - celery-beat
     restart: on-failure
-    entrypoint: /fekrino/celery-entrypoint.sh
+    entrypoint: ~/docker/api/fekrino/celery-beat-entrypoint.sh
     container_name: celery
   celery-beat:
     build: fekrino
@@ -64,7 +64,7 @@ services:
       - postgres
       - rabbitmq
     restart: on-failure
-    entrypoint: /fekrino/celery-beat-entrypoint.sh
+    entrypoint: ~/docker/api/fekrino/celery-beat-entrypoint.sh
     container_name: celery-beat
 
 networks:
