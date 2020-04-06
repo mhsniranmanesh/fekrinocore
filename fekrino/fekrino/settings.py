@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     'authentication',
     'match',
     'discover',
+    'celery',
     # 'chat',
 ]
 
