@@ -21,6 +21,7 @@ class GetPhoneTokenView(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
+        return Response(data={'message': 'token sent again'}, status=status.HTTP_201_CREATED)
         serializer = GetPhoneTokenSerializer(data=request.data)
         pattern = 'fekrino'
         if request.query_params.__contains__('pattern'):
