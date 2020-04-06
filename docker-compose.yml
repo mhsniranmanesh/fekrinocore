@@ -9,7 +9,7 @@ services:
   #     - "5672:5672"
   #   restart: on-failure
   redis:
-    image: "6.0-rc3"
+    image: redis:6.0-rc3
     restart: on-failure
     volumes:
       - "redis:/data"
@@ -58,7 +58,7 @@ services:
     depends_on:
       - api
       - postgres
-      - rabbitmq
+      - redis
     restart: on-failure
     # command: sh -c "wait-for rabbitmq:5672 && wait-for api:8000 -- celery -A fekrino worker -l info"
     entrypoint: ["celery", "-A", "fekrino", "worker", "-l", "info"]
@@ -73,7 +73,7 @@ services:
     depends_on:
       - api
       - postgres
-      - rabbitmq
+      - redis
     restart: on-failure
     entrypoint: ["celery", "-A", "fekrino", "beat", "-l", "info"]
     # command: sh -c "wait-for rabbitmq:5672 && wait-for api:8000 -- celery -A fekrino beat -l info"
