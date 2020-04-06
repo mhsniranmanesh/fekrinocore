@@ -45,10 +45,9 @@ ENV DJANGO_SETTINGS_MODULE=fekrino.settings
 RUN python3 manage.py collectstatic --noinput
 
 ENV UWSGI_WSGI_FILE=fekrino/wsgi.py
-ENV UWSGI_MASTER=1 UWSGI_WSGI_ENV_BEHAVIOR=holy
+ENV UWSGI_MASTER=1
 ENV UWSGI_WORKERS=2 UWSGI_THREADS=4
 ENV UWSGI_SOCKET=fekrino.sock UWSGI_VACUUM=true
-ENV UWSGI_LOGTO=logs/uwsgi.log UWSGI_DAEMONIZE=logs/uwsgi.log
 
 USER ${APP_USER}:${APP_USER}
 
