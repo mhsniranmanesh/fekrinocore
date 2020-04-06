@@ -38,7 +38,7 @@ services:
     networks:
       - backend
     restart: on-failure
-    entrypoint: ["python3", "manage.py", "collectstatic"]
+    entrypoint: /fekrino/api-entrypoint.sh
     container_name: api
 
   celery:
