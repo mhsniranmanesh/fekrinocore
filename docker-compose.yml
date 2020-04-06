@@ -2,8 +2,14 @@ version: '3'
 
 services:
   rabbitmq:
-    image: rabbitmq:3.8.3
-    container_name: rabbitmq
+    container_name: rabbitmq:3.8.3
+    hostname: rabbitmq
+    image: rabbitmq:latest
+    networks:
+      - backend
+    ports:
+      - "5672:5672"
+    restart: on-failure
   postgres:
     image: kartoza/postgis:12.0
     environment: 
@@ -23,6 +29,7 @@ services:
       - 5432:5432
     restart: on-failure
     container_name: postgres
+    hostname: postgres
 
   api:
     build: fekrino
@@ -38,8 +45,10 @@ services:
     networks:
       - backend
     restart: on-failure
-    entrypoint: /fekrino/api-entrypoint.sh
+    # entrypoint: /fekrino/api-entrypoint.sh
+    command: sh -c "wait-for postgres:5432 && python manage.py collectstatic --no-input && python manage.py migrate && uwsgi --show-config"
     container_name: api
+    hostname: api
 
   celery:
     build: fekrino
@@ -48,24 +57,29 @@ services:
     volumes:
       - ./fekrino:/fekrino
     depends_on:
+      - api
       - postgres
       - rabbitmq
-      - celery-beat
     restart: on-failure
-    entrypoint: ["celery", "-A", "fekrino", "worker", "-l", "info"]
+    command: sh -c "wait-for rabbitmq:5672 && wait-for api:8000 -- celery -A fekrino worker -l info"
+    # entrypoint: ["celery", "-A", "fekrino", "worker", "-l", "info"]
     container_name: celery
-  celery-beat:
+    hostname: celery
+  celery_beat:
     build: fekrino
     image: *img
     environment: *env
     volumes:
       - ./fekrino:/fekrino
     depends_on:
+      - api
       - postgres
       - rabbitmq
     restart: on-failure
-    entrypoint: ["celery", "-A", "fekrino", "beat", "-l", "info"]
-    container_name: celery-beat
+    # entrypoint: ["celery", "-A", "fekrino", "beat", "-l", "info"]
+    command: sh -c "wait-for rabbitmq:5672 && wait-for api:8000 -- celery -A fekrino beat -l info"
+    container_name: celery_beat
+    hostname: celery_beat
 
 networks:
   backend:
