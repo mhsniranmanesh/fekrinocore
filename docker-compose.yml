@@ -38,7 +38,7 @@ services:
     networks:
       - backend
     restart: on-failure
-    entrypoint: /fekrino/api-entrypoint.sh
+    entrypoint: "python3 manage.py collectstatic --noinput"
     container_name: api
 
   celery:
@@ -52,7 +52,7 @@ services:
       - rabbitmq
       - celery-beat
     restart: on-failure
-    entrypoint: /fekrino/celery-entrypoint.sh
+    entrypoint: "celery -A fekrino worker -l info"
     container_name: celery
   celery-beat:
     build: fekrino
@@ -64,7 +64,7 @@ services:
       - postgres
       - rabbitmq
     restart: on-failure
-    entrypoint: /fekrino/celery-beat-entrypoint.sh
+    entrypoint: "celery -A fekrino beat -l info"
     container_name: celery-beat
 
 networks:
