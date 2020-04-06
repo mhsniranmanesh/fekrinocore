@@ -37,7 +37,7 @@ services:
     build: fekrino
     image: &img api
     environment: &env
-      - POSTGRES_USER=mohsen
+      - POSTGRES_USER=postgres
       - POSTGRES_PASS=pdnejoh
       - POSTGRES_DBNAME=fekrino-db
     volumes:
