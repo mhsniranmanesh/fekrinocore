@@ -45,8 +45,8 @@ services:
     networks:
       - backend
     restart: on-failure
-    # entrypoint: /fekrino/api-entrypoint.sh
-    command: sh -c "wait-for postgres:5432 && python manage.py collectstatic --no-input && python manage.py migrate && uwsgi --show-config"
+    entrypoint: /fekrino/api-entrypoint.sh
+    # command: sh -c "wait-for postgres:5432 && python manage.py collectstatic --no-input && python manage.py migrate && uwsgi --show-config"
     container_name: api
     hostname: api
 
@@ -61,8 +61,8 @@ services:
       - postgres
       - rabbitmq
     restart: on-failure
-    command: sh -c "wait-for rabbitmq:5672 && wait-for api:8000 -- celery -A fekrino worker -l info"
-    # entrypoint: ["celery", "-A", "fekrino", "worker", "-l", "info"]
+    # command: sh -c "wait-for rabbitmq:5672 && wait-for api:8000 -- celery -A fekrino worker -l info"
+    entrypoint: ["celery", "-A", "fekrino", "worker", "-l", "info"]
     container_name: celery
     hostname: celery
   celery_beat:
@@ -76,8 +76,8 @@ services:
       - postgres
       - rabbitmq
     restart: on-failure
-    # entrypoint: ["celery", "-A", "fekrino", "beat", "-l", "info"]
-    command: sh -c "wait-for rabbitmq:5672 && wait-for api:8000 -- celery -A fekrino beat -l info"
+    entrypoint: ["celery", "-A", "fekrino", "beat", "-l", "info"]
+    # command: sh -c "wait-for rabbitmq:5672 && wait-for api:8000 -- celery -A fekrino beat -l info"
     container_name: celery_beat
     hostname: celery_beat
 
