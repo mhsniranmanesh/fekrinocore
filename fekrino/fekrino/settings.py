@@ -27,7 +27,7 @@ SECRET_KEY = '((8&#%*_i+px5h18@4!wy&gdc3kcxjb9k9wgddl_nimaol@!#d'
 
 ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1', '194.5.193.61']
 
-KAVENEGAR_API_KEY = '316249736A4D662B556D58676250314B497146656F413D3D'
+KAVENEGAR_API_KEY = '5335696668626E75784D59365838474868543137754D31684B56617964467A67'
 GHASEDAK_API_KEY = '6c7c464cebd2eaa94dd6723e8a5846cd8741f48518b8f43d53fbab5105d6a1e0'
 # Application definition
 
@@ -82,7 +82,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'rest_framework',
-    # 'channels',
+    'channels',
     'imagekit',
     'profiles',
     'authentication',
@@ -123,7 +123,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fekrino.wsgi.application'
 
-# ASGI_APPLICATION = "fekrino.routing.application"
+ASGI_APPLICATION = "fekrino.routing.application"
 
 # CHANNEL_LAYERS = {
 #     'default': {

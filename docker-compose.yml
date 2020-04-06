@@ -32,7 +32,7 @@ services:
       - POSTGRES_PASS=pdnejoh
       - POSTGRES_DBNAME=fekrino-db
     volumes:
-      - ~/docker/api/fekrino:/fekrino
+      - ./fekrino:/fekrino
     depends_on:
       - postgres
     networks:
@@ -46,7 +46,7 @@ services:
     image: *img
     environment: *env
     volumes:
-      - ~/docker/api/fekrino:/fekrino
+      - ./fekrino:/fekrino
     depends_on:
       - postgres
       - rabbitmq
@@ -59,7 +59,7 @@ services:
     image: *img
     environment: *env
     volumes:
-      - ~/docker/api/fekrino:/fekrino
+      - ./fekrino:/fekrino
     depends_on:
       - postgres
       - rabbitmq
