@@ -14,7 +14,7 @@ from profiles.utils.userUtils import create_user_random_password
 
 import logging
 
-logger = logging.getlogger('authentication')
+logger = logging.getLogger('authentication')
 
 
 class GetPhoneTokenView(APIView):
