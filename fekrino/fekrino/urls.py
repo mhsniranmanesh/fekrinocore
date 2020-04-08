@@ -15,14 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.urls import include
+from django.urls import include, path
 
 urlpatterns = [
-    url(r'^api/v1/profiles/', include('profiles.urls')),
-    url(r'^api/v1/auth/', include('authentication.urls')),
-    url(r'^api/v1/match/', include('match.urls')),
-    url(r'^api/v1/discover/', include('discover.urls')),
+    path('api/v1/profiles/', include('profiles.urls')),
+    path('api/v1/auth/', include('authentication.urls')),
+    path('api/v1/match/', include('match.urls')),
+    path('api/v1/discover/', include('discover.urls')),
     # url(r'^chat/', include('chat.urls')),
-    url(r'^admin/', admin.site.urls),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('chat/', include('chat.urls')),
 ]

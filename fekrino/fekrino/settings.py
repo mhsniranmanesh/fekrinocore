@@ -32,7 +32,7 @@ GHASEDAK_API_KEY = '6c7c464cebd2eaa94dd6723e8a5846cd8741f48518b8f43d53fbab5105d6
 # Application definition
 
 
-IS_IN_PRODUCTION = True
+IS_IN_PRODUCTION = False
 
 if IS_IN_PRODUCTION is True:
 
@@ -55,6 +55,14 @@ if IS_IN_PRODUCTION is True:
             'PORT': '5432'
         }
     }
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                "hosts": [('redis', 6379)],
+            },
+        },
+    }
     CELERY_BROKER_URL = 'redis://@redis:6379'
 
 else:
@@ -70,7 +78,15 @@ else:
             'PORT': '25432'
         }
     }
-    CELERY_BROKER_URL = 'amqp://localhost'
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                "hosts": [('127.0.0.1', 6379)],
+            },
+        },
+    }
+    CELERY_BROKER_URL = 'redis://@localhost:6379'
 
 
 INSTALLED_APPS = [
@@ -89,7 +105,7 @@ INSTALLED_APPS = [
     'authentication',
     'match',
     'discover',
-    # 'chat',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -126,14 +142,6 @@ WSGI_APPLICATION = 'fekrino.wsgi.application'
 
 ASGI_APPLICATION = "fekrino.routing.application"
 
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [('127.0.0.1', 6379)],
-#         },
-#     },
-# }
 
 AUTH_USER_MODEL = 'profiles.User'
 
