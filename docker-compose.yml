@@ -15,12 +15,12 @@ services:
       - "redis-celery:/data"
     container_name: redis-celery
   redis-channels:
-      image: redis:6.0-rc3
-      restart: on-failure
-      volumes:
-        - "redis-channels:/data"
-      container_name: redis-channels
-    postgres:
+    image: redis:6.0-rc3
+    restart: on-failure
+    volumes:
+      - "redis-channels:/data"
+    container_name: redis-channels
+  postgres:
     image: kartoza/postgis:12.0
     environment: 
       - POSTGRES_USER=postgres
@@ -58,11 +58,8 @@ services:
 
   channels:
     build: fekrino
-    image: &img api
-    environment: &env
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASS=pdnejoh
-      - POSTGRES_DBNAME=fekrino-db
+    image: *img
+    environment: *env
     volumes:
       - ./fekrino:/fekrino
     depends_on:
@@ -83,7 +80,7 @@ services:
     depends_on:
       - api
       - postgres
-      - redis
+      - redis-celery
     restart: on-failure
     # command: sh -c "wait-for rabbitmq:5672 && wait-for api:8000 -- celery -A fekrino worker -l info"
     entrypoint: ["celery", "-A", "fekrino", "worker", "-l", "info"]
@@ -98,7 +95,7 @@ services:
     depends_on:
       - api
       - postgres
-      - redis
+      - redis-celery
     restart: on-failure
     entrypoint: ["celery", "-A", "fekrino", "beat", "-l", "info"]
     # command: sh -c "wait-for rabbitmq:5672 && wait-for api:8000 -- celery -A fekrino beat -l info"
@@ -106,4 +103,5 @@ services:
     hostname: celery_beat
     
 volumes: 
-  redis:
+  redis-celery:
+  redis-channels:
