@@ -8,13 +8,19 @@ services:
   #   ports:
   #     - "5672:5672"
   #   restart: on-failure
-  redis:
+  redis-celery:
     image: redis:6.0-rc3
     restart: on-failure
     volumes:
-      - "redis:/data"
-    container_name: redis
-  postgres:
+      - "redis-celery:/data"
+    container_name: redis-celery
+  redis-channels:
+      image: redis:6.0-rc3
+      restart: on-failure
+      volumes:
+        - "redis-channels:/data"
+      container_name: redis-channels
+    postgres:
     image: kartoza/postgis:12.0
     environment: 
       - POSTGRES_USER=postgres
@@ -49,6 +55,24 @@ services:
     # command: sh -c "wait-for postgres:5432 && python manage.py collectstatic --no-input && python manage.py migrate && uwsgi --show-config"
     container_name: api
     hostname: api
+
+  channels:
+    build: fekrino
+    image: &img api
+    environment: &env
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASS=pdnejoh
+      - POSTGRES_DBNAME=fekrino-db
+    volumes:
+      - ./fekrino:/fekrino
+    depends_on:
+      - postgres
+      - redis-channels
+    restart: on-failure
+    entrypoint: /fekrino/channels-entrypoint.sh
+    # command: sh -c "wait-for postgres:5432 && python manage.py collectstatic --no-input && python manage.py migrate && uwsgi --show-config"
+    container_name: api
+    hostname: channels
 
   celery:
     build: fekrino

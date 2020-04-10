@@ -1,53 +1,35 @@
-# from channels.auth import AuthMiddlewareStack
-# from django.contrib.auth import get_user_model
-# from jwt import exceptions
-# from rest_framework.authtoken.models import Token
-# from django.contrib.auth.models import AnonymousUser
-# from django.db import close_old_connections
-# from rest_framework_jwt.authentication import jwt_get_username_from_payload
-#
-#
-# class JWTAuthMiddleware:
-#     """
-#     Token authorization middleware for Django Channels 2
-#     """
-#
-#     def authenticate_credentials(self, payload):
-#         User = get_user_model()
-#         username = jwt_get_username_from_payload(payload)
-#
-#         if not username:
-#             msg = _('Invalid payload.')
-#             raise exceptions.AuthenticationFailed(msg)
-#
-#         try:
-#             user = User.objects.get_by_natural_key(username)
-#         except User.DoesNotExist:
-#             msg = _('Invalid signature.')
-#             raise exceptions.AuthenticationFailed(msg)
-#
-#         if not user.is_active:
-#             msg = _('User account is disabled.')
-#             raise exceptions.AuthenticationFailed(msg)
-#
-#         return user
-#
-#     def __init__(self, inner):
-#         self.inner = inner
-#
-#     def __call__(self, scope):
-#         headers = dict(scope['headers'])
-#         if b'Authorization' in headers:
-#             try:
-#                 print('Auth')
-#                 token_name, token_key = headers[b'Authorization'].decode().split()
-#                 if token_name == 'JWT':
-#                     user = self.authenticate_credentials(token_key)
-#                     scope['user'] = user
-#                     close_old_connections()
-#             except Token.DoesNotExist:
-#                 scope['user'] = AnonymousUser()
-#         return self.inner(scope)
-#
-# JWTAuthMiddlewareStack = lambda inner: JWTAuthMiddleware(AuthMiddlewareStack(inner))
-#
+from asgiref.sync import sync_to_async
+from channels.auth import AuthMiddlewareStack
+from django.contrib.auth.models import AnonymousUser
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.serializers import TokenVerifySerializer
+
+from profiles.models.user import User
+
+
+class JWTAuthMiddleware:
+    """
+    Token authorization middleware for Django Channels 2
+    """
+    def __init__(self, inner):
+        self.inner = inner
+
+    def __call__(self, scope):
+        jwt_auth = JWTAuthentication()
+        headers = dict(scope['headers'])
+        if b'authorization' in headers:
+            token_name, token_key = headers[b'authorization'].decode().split()
+            if token_name == 'JWT':
+                data = {'token': token_key}
+                valid_data  = TokenVerifySerializer().validate(data)
+                print(valid_data)
+                validated_token = jwt_auth.get_validated_token(token_key)
+                # user = sync_to_async(jwt_auth.get_user)(validated_token).run()
+                print("HEHEHE")
+                user = User.objects.get(id=1)
+                scope['user'] = user
+
+            scope['user'] = AnonymousUser()
+        return self.inner(scope)
+
+JWTAuthMiddlewareStack = lambda inner: JWTAuthMiddleware(AuthMiddlewareStack(inner))

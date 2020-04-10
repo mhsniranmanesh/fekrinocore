@@ -34,7 +34,7 @@ ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /fekrino
 WORKDIR /fekrino
-COPY requirments.txt /fekrino/
+COPY requirements.txt /fekrino/
 RUN pip install -r requirments.txt
 
 COPY . /fekrino/

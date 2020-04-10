@@ -1,5 +1,8 @@
 from rest_framework import serializers
 
+from chat.models.chatModels import Chat
+from chat.views.chatViews import get_user_contact
+
 
 class ContactSerializer(serializers.StringRelatedField):
     def to_internal_value(self, value):

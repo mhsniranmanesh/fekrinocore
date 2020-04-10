@@ -1,3 +1,9 @@
+from rest_framework.generics import get_object_or_404
+
+from chat.models.chatModels import Chat, Contact
+from profiles.models.user import User
+
+
 def get_last_10_messages(chatId):
     chat = get_object_or_404(Chat, id=chatId)
     return chat.messages.order_by('-timestamp').all()[:10]

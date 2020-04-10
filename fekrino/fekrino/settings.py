@@ -59,11 +59,11 @@ if IS_IN_PRODUCTION is True:
         'default': {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
             'CONFIG': {
-                "hosts": [('redis', 6379)],
+                "hosts": [('redis-channels', 6379)],
             },
         },
     }
-    CELERY_BROKER_URL = 'redis://@redis:6379'
+    CELERY_BROKER_URL = 'redis://@redis-celery:6379'
 
 else:
     DEBUG = True
@@ -112,13 +112,13 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'fekrino.urls'
 
@@ -192,7 +192,7 @@ SIMPLE_JWT = {
     'AUDIENCE': None,
     'ISSUER': None,
 
-    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_TYPES': ('JWT',),
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
 
