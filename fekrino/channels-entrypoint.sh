@@ -1,3 +1,3 @@
 #!/bin/sh
 
-daphne -u fekrino.sock fekrino.asgi:application
+daphne -u channels.sock fekrino.asgi:application
