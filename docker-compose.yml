@@ -68,7 +68,7 @@ services:
     restart: on-failure
     entrypoint: /fekrino/channels-entrypoint.sh
     # command: sh -c "wait-for postgres:5432 && python manage.py collectstatic --no-input && python manage.py migrate && uwsgi --show-config"
-    container_name: api
+    container_name: channels
     hostname: channels
 
   celery:
