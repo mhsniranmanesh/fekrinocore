@@ -1,6 +1,8 @@
 # fekrinocore
+
 **Initialize server**
-~~~~
+
+```
 ssh root@ip_adsress
 adduser ubuntu
 usermod -aG sudo ubuntu
@@ -8,35 +10,40 @@ ufw allow OpenSSH
 ufw enable
 rsync --archive --chown=ubuntu:ubuntu ~/.ssh /home/ubuntu
 exit
-~~~~
+```
+
 **ssh ubuntu@ip_address**
-~~~~
+
+```
 sudo apt update
 sudo apt install python3-pip python3-dev libpq-dev postgresql-contrib curl
 
 sudo -H pip3 install --upgrade pip
 sudo -H pip3 install virtualenv
-~~~~
+```
 
 **Virtual Envs**
-~~~~
+
+```
 mkdir /home/ubuntu/.envs
 
-cd /home/ubuntu/.envs 
+cd /home/ubuntu/.envs
 virtualenv coronacore
-~~~~
+```
 
 **Cloning Repositories**
-~~~~
+
+```
 mkdir /home/ubuntu/dev
 cd /home/ubuntu/dev
 git clone https://gitlab.com/mhsn.iranmanesh/coronacore.git
 git clone https://gitlab.com/thevahidal/coronakoo-pwa.git
 git clone https://gitlab.com/mhsn.iranmanesh/corona-web.git
-~~~~
+```
 
 **Docker**
-~~~~
+
+```
 sudo apt-get update
 sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -49,15 +56,17 @@ sudo add-apt-repository \
 
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
-~~~~
+```
 
 **Postgres**
-~~~~
+
+```
 sudo docker run --name=corona-postgis -d -e POSTGRES_USER=ubuntu -e POSTGRES_PASS=PASSWORD -e POSTGRES_DBNAME=corona-db -p 25432:5432 -v $HOME/postgres_data:/var/lib/postgresql kartoza/postgis
-~~~~
+```
 
 **Django setup**
-~~~~
+
+```
 source /home/ubuntu/.envs/coronacore/bin/activate
 cd /home/ubuntu/dev/coronacore/
 
@@ -72,19 +81,21 @@ python manage.py makemigrations
 python manage.py migrate
 
 mkdir /home/ubuntu/dev/coronacore/static/map
-~~~~
+```
 
 **Rabbit MQ**
-~~~~
+
+```
 sudo apt-get install -y erlang
 sudo apt-get install rabbitmq-server
 sudo systemctl enable rabbitmq-server
 sudo systemctl start rabbitmq-server
 sudo systemctl status rabbitmq-server
-~~~~
+```
 
 **Gunicorn**
-~~~~
+
+```
 sudo nano /etc/systemd/system/gunicorn.socket
 [INSERT DATA FROM FILE]
 
@@ -94,10 +105,11 @@ sudo nano /etc/systemd/system/gunicorn.service
 sudo systemctl start gunicorn.socket
 sudo systemctl enable gunicorn.socket
 sudo systemctl status gunicorn.socket
-~~~~
+```
 
 **Celery / Beats**
-~~~~
+
+```
 
 sudo apt-get install supervisor
 sudo nano /etc/supervisor/conf.d/coronacore-celery.conf
@@ -107,10 +119,11 @@ sudo nano /etc/supervisor/conf.d/coronacore-beat.conf
 
 sudo supervisorctl reread
 sudo supervisorctl update
-~~~~
+```
 
 **Nginx**
-~~~~
+
+```
 
 sudo apt install nginx
 
@@ -129,20 +142,93 @@ sudo ufw allow 'Nginx Full'
 
 sudo certbot --nginx -d fectogram.com -d www.fectogram.com
 sudo certbot --nginx -d app.fectogram.com -d www.app.fectogram.com
-~~~~
+```
 
 **NPM**
-~~~~
+
+```
 
 sudo apt-get install curl
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install nodejs
-node -v 
+node -v
 npm -v
 
 cd /home/ubuntu/dev/coronakoo-pwa
 npm install
 npm run build
-~~~~
+```
 
+**MODELS**
 
+```
+Message: {
+   uuid
+   chat_id
+   sender: uuid
+   type:
+   text:
+   media:
+}
+
+Chat:{
+   uuid
+   user: OtherUser
+   messages: [
+      {
+         Message
+      }
+   ]
+}
+
+ProfilePictures:[
+   {
+      uuid
+      date_created
+      image
+      thumbnail
+      priority
+   }
+]
+
+OtherUser
+   name
+   uuid
+   bio
+   work
+   university
+   location
+   gender
+   profile_pictures : ProfilePictures
+
+SelfUser
+   username
+   name
+   uuid
+   phone_number
+   date_joined
+   bio
+   work
+   university
+   balance
+   rate
+   location
+   gender
+   profile_pictures: ProfilePictures
+   matches: [
+   {
+      OtherUser
+   }
+   ]
+   likes:[
+      {
+         OtherUser
+      }
+   ]
+   chats: [
+      {
+         Chat
+      }
+   ]
+   
+```
