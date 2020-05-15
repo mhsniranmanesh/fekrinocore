@@ -32,7 +32,7 @@ GHASEDAK_API_KEY = '6c7c464cebd2eaa94dd6723e8a5846cd8741f48518b8f43d53fbab5105d6
 # Application definition
 
 
-IS_IN_PRODUCTION = False
+IS_IN_PRODUCTION = True
 
 if IS_IN_PRODUCTION is True:
 
