@@ -1,35 +1,42 @@
-from asgiref.sync import sync_to_async
 from channels.auth import AuthMiddlewareStack
+from channels.db import database_sync_to_async
 from django.contrib.auth.models import AnonymousUser
+from django.db import close_old_connections
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework_simplejwt.serializers import TokenVerifySerializer
-
-from profiles.models.user import User
 
 
 class JWTAuthMiddleware:
     """
     Token authorization middleware for Django Channels 2
+    see:
+    https://channels.readthedocs.io/en/latest/topics/authentication.html#custom-authentication
     """
+
     def __init__(self, inner):
         self.inner = inner
 
     def __call__(self, scope):
-        jwt_auth = JWTAuthentication()
-        headers = dict(scope['headers'])
+        return JWTAuthMiddlewareInstance(scope, self)
+
+
+class JWTAuthMiddlewareInstance:
+    def __init__(self, scope, middleware):
+        self.middleware = middleware
+        self.scope = dict(scope)
+        self.inner = self.middleware.inner
+
+    async def __call__(self, receive, send):
+        user = AnonymousUser()
+        headers = dict(self.scope['headers'])
         if b'authorization' in headers:
             token_name, token_key = headers[b'authorization'].decode().split()
             if token_name == 'JWT':
-                data = {'token': token_key}
-                valid_data  = TokenVerifySerializer().validate(data)
-                print(valid_data)
+                await database_sync_to_async(close_old_connections)()
+                jwt_auth = JWTAuthentication()
                 validated_token = jwt_auth.get_validated_token(token_key)
-                # user = sync_to_async(jwt_auth.get_user)(validated_token).run()
-                print("HEHEHE")
-                user = User.objects.get(id=1)
-                scope['user'] = user
-
-            scope['user'] = AnonymousUser()
-        return self.inner(scope)
+                user = await database_sync_to_async(jwt_auth.get_user)(validated_token)
+        self.scope['user'] = user
+        inner = self.inner(self.scope)
+        return await inner(receive, send)
 
 JWTAuthMiddlewareStack = lambda inner: JWTAuthMiddleware(AuthMiddlewareStack(inner))

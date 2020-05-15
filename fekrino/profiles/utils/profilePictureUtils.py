@@ -6,15 +6,15 @@ from imagekit.specs import ImageSpec
 
 
 class ProfilePictureImage(ImageSpec):
-    processors = [ResizeToFill(900, 900)]
+    processors = [ResizeToFill(600, 800)]
     format = 'JPEG'
-    options = {'quality': 100}
+    options = {'quality': 90}
 
 
 class ProfilePictureThumbnail(ImageSpec):
-    processors = [ResizeToFill(100, 100)]
+    processors = [ResizeToFill(200, 200)]
     format = 'JPEG'
-    options = {'quality': 80}
+    options = {'quality': 100}
 
 
 def generate_resized_picture(picture, mode):

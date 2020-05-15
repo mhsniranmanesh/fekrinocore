@@ -32,7 +32,7 @@ GHASEDAK_API_KEY = '6c7c464cebd2eaa94dd6723e8a5846cd8741f48518b8f43d53fbab5105d6
 # Application definition
 
 
-IS_IN_PRODUCTION = True
+IS_IN_PRODUCTION = False
 
 if IS_IN_PRODUCTION is True:
 
@@ -289,7 +289,8 @@ LOGGING = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
 
@@ -307,3 +308,37 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+##### Chat specific settings
+
+
+CMD_TYPE_MESSAGE = 1
+CMD_TYPE_STATUS = 2
+
+
+COMMAND_TYPES_CHOICES = (
+    (CMD_TYPE_MESSAGE, 'MESSAGE'),
+    (CMD_TYPE_STATUS, 'STATUS'),
+)
+
+COMMAND_TYPES_LIST = [
+    CMD_TYPE_MESSAGE,
+    CMD_TYPE_STATUS,
+]
+
+#################################
+
+MSG_TYPE_TEXT = 1
+MSG_TYPE_IMAGE = 2
+MSG_TYPE_VIDEO = 3
+MSG_TYPE_STICKER = 4
+MSG_TYPE_SYSTEM = 5
+
+MESSAGE_TYPE_CHOICES = (
+    (MSG_TYPE_TEXT, 'TEXT'),
+    (MSG_TYPE_IMAGE, 'IMAGE'),
+    (MSG_TYPE_VIDEO, 'VIDEO'),
+    (MSG_TYPE_STICKER, 'STICKER'),
+    (MSG_TYPE_SYSTEM, 'SYSTEM'),
+)

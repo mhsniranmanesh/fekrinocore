@@ -37,7 +37,6 @@ class GetPhoneTokenView(APIView):
                         o_otp.save()
                     token = create_otp_token()
                     new_otp = PhoneActivationToken.objects.create(phone_number=phone_number, is_last=True, token=token)
-                    print("BEFORE SEND SMS")
                     send_sms(phone_number, new_otp.token, pattern)
                     logger.info("OTP successfully sent")
                     return Response(data={'message': 'new token successfully sent'}, status=status.HTTP_201_CREATED)
@@ -90,6 +89,7 @@ class VerifyPhoneTokenView(APIView):
                                             'name': user.name,
                                             'username': user.username,
                                             'password': password,
+                                            'is_info_initialized': user.is_info_initialized,
                                             'is_new_user': False
                                         }
                             logger.info("account created")
@@ -110,6 +110,7 @@ class VerifyPhoneTokenView(APIView):
                                 'name': user.name,
                                 'username': user.username,
                                 'password': password,
+                                'is_info_initialized': user.is_info_initialized,
                                 'is_new_user': True
                             }
                             logger.info("account created")

@@ -18,11 +18,11 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
+    path('api/v1/discover/', include('discover.urls')),
+    path('api/v1/chat/', include('chat.urls', namespace='chat')),
     path('api/v1/profiles/', include('profiles.urls')),
     path('api/v1/auth/', include('authentication.urls')),
     path('api/v1/match/', include('match.urls')),
-    path('api/v1/discover/', include('discover.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('chat/', include('chat.urls', namespace='chat')),
 ]
