@@ -23,6 +23,6 @@ urlpatterns = [
     path('api/v1/profiles/', include('profiles.urls')),
     path('api/v1/auth/', include('authentication.urls')),
     path('api/v1/match/', include('match.urls')),
-    path('admin/', admin.site.urls),
+    path('api/v1/admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

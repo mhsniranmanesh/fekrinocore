@@ -35,11 +35,8 @@ class UserUpdateInfosView(UpdateAPIView):
                     user.version = serializer.validated_data.get('version')
                 if 'locale' in serializer.validated_data.keys():
                     user.locale = serializer.validated_data.get('locale')
-                if 'latitude' in serializer.validated_data.keys() and 'longitude' in serializer.validated_data.keys():
-                    longitude = serializer.validated_data.get('longitude')
-                    latitude = serializer.validated_data.get('latitude')
-                    location = Point(longitude, latitude)
-                    user.location = location
+                if 'job' in serializer.validated_data.keys():
+                    user.job = serializer.validated_data.get('job')
                 user.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
 

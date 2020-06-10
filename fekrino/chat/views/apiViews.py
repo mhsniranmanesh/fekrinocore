@@ -5,7 +5,6 @@ from rest_framework.views import APIView
 
 from chat.models.chatModels import Chat, Message
 from chat.serializers.chatSerializers import ChatSerializer, GetMessageSerializer, GetChatMessagesPeriod
-from profiles.serializers.userSerializers import UserUpdateLocationSerializer
 
 
 class ChatListView(APIView):
