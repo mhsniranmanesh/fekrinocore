@@ -13,11 +13,12 @@ class FindNearSerializer(serializers.Serializer):
 
 class NearUserSerializer(serializers.ModelSerializer):
     distance = serializers.SerializerMethodField()
-    profile_pictures = GetProfilePictureSerializer(many=True)
+    profile_pictures = GetProfilePictureSerializer(many=True, read_only=True)
 
     def get_distance(self, obj):
         return int(obj.distance.m)
 
     class Meta:
         model = User
-        fields = ('uuid', 'name', 'profile_pictures','distance')
+        fields = ('uuid', 'username', 'name', 'is_active', 'bio', 'birthday', 'gender', 'age', 'job', 'workplace',
+                  'school', 'location', 'profile_pictures', 'city', 'distance')
