@@ -22,11 +22,13 @@ def profile_picture_thumbnail_attachment_path(instance, filename):
 class ProfilePicture(models.Model):
     uuid = models.UUIDField(db_index=True, default=uuid_lib.uuid4, editable=False)
     date_created = models.DateTimeField(default=timezone.now, blank=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile_pictures',
-                                blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile_pictures', blank=True, null=True)
     image = models.ImageField(upload_to=profile_picture_attachment_path, blank=False)
-    thumbnail = models.ImageField(upload_to=profile_picture_thumbnail_attachment_path, blank=False)
+    thumbnail = models.ImageField(upload_to=profile_picture_thumbnail_attachment_path, blank=True)
     priority = models.IntegerField(blank=False)
+
+    def __str__(self):
+        return "%s | %s | %s" % (self.user.phone_number, self.user.name, self.priority)
 
 
 @receiver(models.signals.post_delete, sender=ProfilePicture)

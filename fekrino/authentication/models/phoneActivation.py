@@ -10,3 +10,6 @@ class PhoneActivationToken(models.Model):
     phone_number = models.CharField(max_length=16, db_index=True, blank=False)
     is_last = models.BooleanField(default=False)
     is_again = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "{0} | {1} | {2}".format(self.phone_number, self.token, self.date_created)

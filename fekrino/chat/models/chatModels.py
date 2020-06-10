@@ -31,4 +31,5 @@ class Message(models.Model):
     text = models.CharField(max_length=4096, null=True, blank=True)
 
     def __str__(self):
-        return self.sender.name
+        return "{0} | {1} | {2}-{3} | {4}".format(self.type, self.sender, self.chat.self_user, self.chat.other_user,
+                                                  self.text)
