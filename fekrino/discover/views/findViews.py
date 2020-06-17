@@ -13,7 +13,7 @@ from profiles.models.user import User
 class FindNearView(APIView):
     permission_classes = (IsAuthenticated, )
 
-    def get(self, request):
+    def post(self, request):
         user = request.user
         serializer = FindNearSerializer(data=request.data)
         if serializer.is_valid():
