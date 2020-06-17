@@ -5,8 +5,6 @@ from profiles.serializers.profilePictureSerializers import GetProfilePictureSeri
 
 
 class FindNearSerializer(serializers.Serializer):
-    longitude = serializers.FloatField()
-    latitude = serializers.FloatField()
     gender = serializers.CharField()
     limited_distance = serializers.IntegerField()
 

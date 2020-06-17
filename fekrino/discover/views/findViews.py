@@ -18,13 +18,11 @@ class FindNearView(APIView):
         serializer = FindNearSerializer(data=request.data)
         if serializer.is_valid():
             try:
-                longitude = serializer.validated_data.get('longitude')
-                latitude = serializer.validated_data.get('latitude')
                 gender = serializer.validated_data.get('gender')
                 limited_distance = int(serializer.validated_data.get('limited_distance'))
-                user_location = Point(longitude, latitude)
+                user_location = user.location
                 near_users = User.objects.filter(
-                    gender = gender,
+                    gender=gender,
                     location__dwithin=(user_location, limited_distance / 111),
                 ).filter(location__distance_lte=(user_location, D(km=limited_distance))
                          ).exclude(id=user.id).annotate(distance=Distance('location', user_location)
