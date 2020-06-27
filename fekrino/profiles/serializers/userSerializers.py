@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from match.models.match import Match, Like
+from match.models.match import Match, Like, SuperLike
 from profiles.models.user import User
 from profiles.serializers.profilePictureSerializers import GetProfilePictureSerializer
 
@@ -18,7 +18,7 @@ class GetMatchesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Match
-        fields = ('date', 'match')
+        fields = ('created_at', 'match')
 
 
 class GetBeenMatchesSerializer(serializers.ModelSerializer):
@@ -26,7 +26,7 @@ class GetBeenMatchesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Match
-        fields = ('date', 'user')
+        fields = ('created_at', 'user')
 
 
 class GetBeenLikesSerializer(serializers.ModelSerializer):
@@ -34,15 +34,15 @@ class GetBeenLikesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Like
-        fields = ('date', 'user')
+        fields = ('created_at', 'user')
 
 
 class GetBeenSuperLikesSerializer(serializers.ModelSerializer):
     user = UserGetPublicInfosSerializer(read_only=True)
 
     class Meta:
-        model = Like
-        fields = ('date', 'user')
+        model = SuperLike
+        fields = ('created_at', 'user')
 
 
 class UserGetInitialInfosSerializer(serializers.ModelSerializer):
