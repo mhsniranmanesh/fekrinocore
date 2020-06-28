@@ -1,12 +1,14 @@
 from rest_framework import serializers
 from chat.models.chatModels import Chat, Message
 from profiles.models.user import User
+from profiles.serializers.profilePictureSerializers import GetProfilePictureSerializer
 
 
 class ChatUsersSerializer(serializers.ModelSerializer):
+    profile_pictures = GetProfilePictureSerializer(many=True, read_only=True)
     class Meta:
         model = User
-        fields =['uuid']
+        fields =['uuid', 'name', 'profile_pictures']
 
 
 class ChatSerializer(serializers.ModelSerializer):
