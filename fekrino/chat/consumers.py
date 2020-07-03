@@ -48,7 +48,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         command = content.get("command", None)
         try:
             if command == "send":
-                await self.send_chat(content["chat_id"], content["message_type"], content["text"])
+                await self.send_chat(content["chat_id"], content["message_type"], content["text"], content["client_message_id"])
             if command == "status":
                 await self.set_status(content["chat_id"], content["status"])
         except ClientError as e:
@@ -90,7 +90,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             self.channel_name,
         )
 
-    async def send_chat(self, chat_id, message_type, text):
+    async def send_chat(self, chat_id, message_type, text, client_message_id):
         #print("SEND_CHATTTT")
         """
         Called by receive_json when someone sends a message to a chat.
@@ -107,6 +107,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 "sender": str(self.scope["user"].uuid),
                 "message_type": message_type,
                 "text": text,
+                "client_message_id": client_message_id,
             }
         )
         chat = await get_chat_or_error(chat_id, self.scope["user"])
@@ -147,7 +148,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 "chat_id": event["chat_id"],
                 "sender": event["sender"],
                 "message_type": event["message_type"],
-                "text": event["text"]
+                "text": event["text"],
+                "client_message_id": event["client_message_id"]
             },
         )
 
