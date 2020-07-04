@@ -41,9 +41,9 @@ def get_user_chats_or_error(user):
 
 
 @database_sync_to_async
-def save_chat_message(type, chat, sender, text):
+def save_chat_message(type, chat, sender, text, uuid):
     try:
-        return Message.objects.create(type=type, chat=chat, sender=sender, text=text)
+        return Message.objects.create(type=type, chat=chat, sender=sender, text=text, uuid=uuid)
     except Exception as e:
         print(e)
         raise ClientError("SERVER_CAN_NOT_SAVE_MESSAGE")

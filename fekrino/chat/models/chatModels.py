@@ -21,7 +21,7 @@ class Chat(models.Model):
 
 
 class Message(models.Model):
-    uuid = models.UUIDField(db_index=True, default=uuid_lib.uuid4, editable=False)
+    uuid = models.UUIDField(db_index=True, unique=True, editable=False, blank=False)
     created_at = models.DateTimeField(default=timezone.now, blank=False)
     chat = models.ForeignKey(Chat, related_name='chat_messages', on_delete=models.CASCADE)
     type = models.IntegerField(default=1, choices=MESSAGE_TYPE_CHOICES)
