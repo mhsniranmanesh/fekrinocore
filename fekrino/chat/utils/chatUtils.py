@@ -1,5 +1,5 @@
 from channels.db import database_sync_to_async
-
+import uuid as uuid_lib
 
 # This decorator turns this function from a synchronous function into an async one
 # we can call from our async consumers, that handles Django DBs correctly.
@@ -43,7 +43,8 @@ def get_user_chats_or_error(user):
 @database_sync_to_async
 def save_chat_message(type, chat, sender, text, uuid):
     try:
-        return Message.objects.create(type=type, chat=chat, sender=sender, text=text, uuid=uuid)
+        uuid_obj = uuid_lib.UUID(uuid)
+        return Message.objects.create(type=type, chat=chat, sender=sender, text=text, uuid=uuid_obj)
     except Exception as e:
         print(e)
         raise ClientError("SERVER_CAN_NOT_SAVE_MESSAGE")
