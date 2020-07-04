@@ -62,7 +62,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         Called when the WebSocket closes for any reason.
         """
         # Leave all the rooms we are still in
-        for chat_id in self.chat_ids:
+        active_chat_ids = self.chat_ids.copy()
+        for chat_id in active_chat_ids:
             try:
                 await self.leave_chat(chat_id)
             except ClientError:
