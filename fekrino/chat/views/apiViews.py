@@ -47,10 +47,12 @@ class GetChatMessagesView(APIView):
                     return Response(data={'message': 'Valid count should be between 2 and 50'},
                                     status=status.HTTP_400_BAD_REQUEST)
                 base_message = Message.objects.get(uuid=message_uuid)
+
                 if base_message.chat.self_user != user and base_message.chat.other_user != user:
                     return Response(data={'message': 'You do not have permission to this chat'},
                                     status=status.HTTP_400_BAD_REQUEST)
-                messages = Message.objects.filter(created_at__lte=base_message.created_at).order_by('-created_at')[:count]
+                messages = Message.objects.filter(created_at__lte=base_message.created_at,
+                                                  chat=base_message.chat).order_by('-created_at')[:count]
                 data = GetMessageSerializer(messages, many=True).data
                 return Response(data, status=status.HTTP_200_OK)
             except Message.DoesNotExist:

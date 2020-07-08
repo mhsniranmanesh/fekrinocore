@@ -22,7 +22,7 @@ class ChatSerializer(serializers.ModelSerializer):
 
 class GetMessageSerializer(serializers.ModelSerializer):
     sender = serializers.SlugRelatedField(read_only=True, slug_field='uuid')
-    
+
     class Meta:
         model = Message
         fields = ('uuid', 'created_at', 'type', 'replied_to', 'deleted_users', 'sender', 'text')
