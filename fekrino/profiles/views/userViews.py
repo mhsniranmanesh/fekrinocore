@@ -37,6 +37,8 @@ class UserUpdateInfosView(UpdateAPIView):
                     user.locale = serializer.validated_data.get('locale')
                 if 'job' in serializer.validated_data.keys():
                     user.job = serializer.validated_data.get('job')
+                if 'gender' in serializer.validated_data.keys():
+                    user.gender = serializer.validated_data.get('gender')
                 user.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
 

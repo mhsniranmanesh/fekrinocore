@@ -63,7 +63,7 @@ class UserGetInitialInfosSerializer(serializers.ModelSerializer):
 class UserUpdateInfosSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('name', 'bio', 'workplace', 'school', 'birthday', 'city', 'version', 'locale', 'job')
+        fields = ('name', 'bio', 'workplace', 'school', 'birthday', 'city', 'version', 'locale', 'job', 'gender')
 
 
 class UserUpdateLocationSerializer(serializers.ModelSerializer):
