@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.utils.crypto import get_random_string
 
 from profiles.models.user import User
+from profiles.utils.profilePictureUtils import generate_resized_picture
 
 
 def profile_picture_attachment_path(instance, filename):
@@ -80,3 +81,23 @@ def auto_delete_image_and_thumbnail_on_change(sender, instance, **kwargs):
         return False
     except User.DoesNotExist:
         return False
+
+
+@receiver(models.signals.post_save, sender=ProfilePicture)
+def auto_delete_image_and_thumbnail_on_delete(sender, instance, **kwargs):
+    """
+    Deletes file from filesystem
+    when corresponding `MediaFile` object is deleted.
+    """
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            generate_resized_picture(instance.image, 'image')
+
+    if instance.thumbnail:
+        if os.path.isfile(instance.thumbnail.path):
+            generate_resized_picture(instance.thumbnail, 'thumbnail')
+
+
+
+
+    return False

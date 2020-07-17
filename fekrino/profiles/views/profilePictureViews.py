@@ -21,8 +21,6 @@ class ProfilePictureView(APIView):
                 priority = serializer.validated_data.get('priority')
                 profile_picture = ProfilePicture(user=user, image=image, thumbnail=image, priority=priority)
                 profile_picture.save()
-                generate_resized_picture(profile_picture.image, 'image')
-                generate_resized_picture(profile_picture.thumbnail, 'thumbnail')
                 profile_picture_data = GetProfilePictureSerializer(profile_picture).data
                 return Response(data={'profile_picture': profile_picture_data}, status=status.HTTP_201_CREATED)
             except Exception as e:
