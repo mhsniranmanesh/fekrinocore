@@ -96,8 +96,4 @@ def auto_delete_image_and_thumbnail_on_delete(sender, instance, **kwargs):
     if instance.thumbnail:
         if os.path.isfile(instance.thumbnail.path):
             generate_resized_picture(instance.thumbnail, 'thumbnail')
-
-
-
-
     return False
