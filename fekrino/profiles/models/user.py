@@ -36,6 +36,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False,
         help_text=_('Designates whether the user can log into this admin site.'),
     )
+    is_fake = models.BooleanField(
+        _('fake status'),
+        default=False,
+    )
     uuid = models.UUIDField(db_index=True, default=uuid_lib.uuid4, editable=False)
     is_active = models.BooleanField(
         _('active'),
