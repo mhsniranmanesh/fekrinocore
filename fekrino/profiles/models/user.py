@@ -70,6 +70,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     weight = models.IntegerField(null=True, blank=True)
     platform = models.CharField(max_length=50, blank=True, null=True)
     device_id = models.CharField(max_length=100, blank=True, null=True)
+    notification_token = models.CharField(max_length=100, blank=True, null=True)
     version = models.CharField(max_length=100, blank=True, null=True)
     locale = models.CharField(max_length=100, blank=True, null=True, default='ir')
     city = models.CharField(max_length=100, blank=True, null=True)

@@ -45,6 +45,7 @@ if IS_IN_PRODUCTION is True:
 
     DEBUG = False
     SEND_SMS = True
+    CORS_ORIGIN_ALLOW_ALL = False
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
@@ -68,6 +69,7 @@ if IS_IN_PRODUCTION is True:
 else:
     DEBUG = True
     SEND_SMS = True
+    CORS_ORIGIN_ALLOW_ALL = True
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
@@ -106,9 +108,11 @@ INSTALLED_APPS = [
     'match',
     'discover',
     'chat',
+    'corsheaders', ######## IMPORTANT ##########
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', ######## IMPORTANT ##########
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

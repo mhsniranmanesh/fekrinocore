@@ -63,7 +63,8 @@ class UserGetInitialInfosSerializer(serializers.ModelSerializer):
 class UserUpdateInfosSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('name', 'bio', 'workplace', 'school', 'birthday', 'city', 'version', 'locale', 'job', 'gender')
+        fields = ('name', 'bio', 'workplace', 'school', 'birthday', 'city', 'version', 'locale', 'job', 'gender',
+                  'notification_token', 'platform')
 
 
 class UserUpdateLocationSerializer(serializers.ModelSerializer):

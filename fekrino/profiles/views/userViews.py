@@ -39,6 +39,10 @@ class UserUpdateInfosView(UpdateAPIView):
                     user.job = serializer.validated_data.get('job')
                 if 'gender' in serializer.validated_data.keys():
                     user.gender = serializer.validated_data.get('gender')
+                if 'notification_token' in serializer.validated_data.keys():
+                    user.notification_token = serializer.validated_data.get('notification_token')
+                if 'platform' in serializer.validated_data.keys():
+                    user.platform = serializer.validated_data.get('platform')
                 user.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
